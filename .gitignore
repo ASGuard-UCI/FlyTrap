@@ -1,0 +1,55 @@
+*.idea
+*~
+*__pycache__*
+*.pyc
+*.pytest_cache
+*.csv
+local.py
+/data
+wandb
+debug
+ckpts
+
+# Re-include the specific data folder
+!models/MixFormer/lib/data/
+
+# Ensure all files within the specific data folder are included
+!models/MixFormer/lib/data/**
+
+# Output files
+/*.jpg
+/*.png
+/*.pdf
+/exp_analysis/figs
+/script
+/.vscode
+/figs
+*.tar
+*.mp4
+*.MOV
+*.avi
+*.mkv
+*.webm
+*.pdf
+
+# Folders commonly used for outputs or checkpoints
+wandb/
+debug/
+ckpts/
+logs/
+output/
+outputs/
+runs/
+exp_analysis/figs/
+figs/
+script/
+
+# System files
+Icon?
+._*
+
+# Exclude data folders if needed
+data/
+Data/
+DATA/
+# End of Selection
