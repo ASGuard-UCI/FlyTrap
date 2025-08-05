@@ -87,7 +87,7 @@ patch_transform = [
 epochs = 80
 patch_size = 300
 eval_interval = 20
-patch_path = 'patches/siamrpn_resnet_flytrap.png'
+patch_path = 'patches/siamrpn_resnet_flytrap_atg_percepguard.png'
 
 # log settings
 log = False

@@ -10,3 +10,9 @@ cd ..
 cd models/MixFormer/models
 gdown 1kOOEDi_wA7u0kWKJUbVxEqHv6INIPjgn
 cd ..
+
+cd models/VOGUES/
+gdown 1exyOvOkueX2c-6e-oFr2YY38r3ImFCn8
+cd pretrained_models 
+gdown 1fCNYPSlM06XQnDFCyo_qmuU72OzfUL3l
+cd ../../../

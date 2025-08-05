@@ -19,60 +19,58 @@ img_config = {"mean": [123.675, 116.28, 103.53], "std": [58.395, 57.12, 57.375]}
 model_img_config = {"mean": [0.0, 0.0, 0.0], "std": [1.0, 1.0, 1.0]}
 
 cfg = dict(
-        CKPT='ckpts/siamrpn_r50_l234_dwxcorr.pth',
-        META_ARC='siamrpn_r50_l234_dwxcorr',
-        BACKBONE=dict(
-            TYPE='resnet50',
-            KWARGS=dict(
-                used_layers=[2, 3, 4]
-            )
-        ),
-        ADJUST=dict(
-            ADJUST=True,
-            TYPE='AdjustAllLayer',
-            KWARGS=dict(
-                in_channels=[512, 1024, 2048],
-                out_channels=[256, 256, 256]
-            )
-        ),
-        RPN=dict(
-            TYPE='MultiRPN',
-            KWARGS=dict(
-                anchor_num=5,
-                in_channels=[256, 256, 256],
-                weighted=True
-            )
-        ),
-        MASK=dict(
-            MASK=False
-        ),
-        ANCHOR=dict(
-            STRIDE=8,
-            RATIOS=[0.33, 0.5, 1, 2, 3],
-            SCALES=[8],
-            ANCHOR_NUM=5
-        ),
-        # seems not used
-        TRACK=dict(
-            TYPE='SiamRPNTracker',
-            PENALTY_K=0.05,
-            WINDOW_INFLUENCE=0.42,
-            LR=0.38,
-            EXEMPLAR_SIZE=127,
-            INSTANCE_SIZE=255,
-            BASE_SIZE=8,
-            CONTEXT_AMOUNT=0.5
-        ))
+    CKPT='ckpts/siamrpn_alex_dwxcorr.pth',
+    META_ARC="siamrpn_alex_dwxcorr",
+    BACKBONE=dict(
+        TYPE="alexnetlegacy",
+        KWARGS=dict(
+            width_mult=1.0
+        )
+    ),
+    ADJUST=dict(
+        ADJUST=False
+    ),
+    RPN=dict(
+        TYPE='DepthwiseRPN',
+        KWARGS=dict(
+            anchor_num=5,
+            in_channels=256,
+            out_channels=256
+        )
+    ),
+    MASK=dict(
+        MASK=False
+    ),
+    ANCHOR=dict(
+        STRIDE=8,
+        RATIOS=[0.33, 0.5, 1, 2, 3],
+        SCALES=[8],
+        ANCHOR_NUM=5
+    ),
+    TRACK=dict(
+        TYPE='SiamRPNTracker',
+        PENALTY_K=0.16,
+        WINDOW_INFLUENCE=0.40,
+        LR=0.30,
+        EXEMPLAR_SIZE=127,
+        INSTANCE_SIZE=287,
+        BASE_SIZE=0,
+        CONTEXT_AMOUNT=0.5
+    )
+)
 
 model = dict(
     type='ModelBuilder',
-    cfg=cfg)
+    cfg=cfg
+)
 
 tracker = dict(
     type='SiamRPNTracker',
     cfg=model
 )
 
+
+# target_pose = 'models/AlphaPose/heatmap_avg.pkl'
 
 # color transformation range: [0, 1]
 # imporve physical robustness
@@ -87,7 +85,7 @@ patch_transform = [
 epochs = 80
 patch_size = 300
 eval_interval = 20
-patch_path = 'patches/siamrpn_resnet_flytrap.png'
+patch_path = 'patches/siamrpn_alex_flytrap_atg_vogues.png'
 
 # log settings
 log = False
@@ -171,7 +169,7 @@ engine = dict(
     type='PhysicalEngineV4',
     evolve_step=2,
     interval_distance=4,
-    out_size=255,
+    out_size=287,
     render = dict(
         type='Renderer',
         device='cuda',

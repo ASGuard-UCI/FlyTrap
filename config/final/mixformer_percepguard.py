@@ -1,10 +1,11 @@
-# based on physical engine, decrease the evolve_step
-# remove detector NDS
-# decrease the detector confidence to 0.01
+# based on engine_v3, 
+#   - delete distance based rendered (v4)
+#       - Increase batch size to 16 (v5)
+#   - random crop the first frame of images using random scale factor (v6)
+#       - Fix the `target_shrink_bbox` center position, previously mistakenly overwrite it (v6_fix)
+#       - Fix the `target_shrink_bbox` center position, previously mistakenly overwrite it in `stage` (v6_fix_v2)
 
-# (v3) fix the overwrite problem in engine_v6_fix_v2
-# (v4) add the pose estimation model
-# (v5) change the pose regression loss to mse loss
+# final version, we use v6_fix_v2: test if the performance match v6_fix_v2
 
 _base_ = [
     '../_base_/metrics/masr.py'
@@ -16,63 +17,18 @@ eval = True
 # used for patch generation
 img_config = {"mean": [123.675, 116.28, 103.53], "std": [58.395, 57.12, 57.375]}
 # used for model input normalization
-model_img_config = {"mean": [0.0, 0.0, 0.0], "std": [1.0, 1.0, 1.0]}
+model_img_config = {"mean": [0.485, 0.456, 0.406], "std": [0.229, 0.224, 0.225]}
 
-cfg = dict(
-        CKPT='ckpts/siamrpn_r50_l234_dwxcorr.pth',
-        META_ARC='siamrpn_r50_l234_dwxcorr',
-        BACKBONE=dict(
-            TYPE='resnet50',
-            KWARGS=dict(
-                used_layers=[2, 3, 4]
-            )
-        ),
-        ADJUST=dict(
-            ADJUST=True,
-            TYPE='AdjustAllLayer',
-            KWARGS=dict(
-                in_channels=[512, 1024, 2048],
-                out_channels=[256, 256, 256]
-            )
-        ),
-        RPN=dict(
-            TYPE='MultiRPN',
-            KWARGS=dict(
-                anchor_num=5,
-                in_channels=[256, 256, 256],
-                weighted=True
-            )
-        ),
-        MASK=dict(
-            MASK=False
-        ),
-        ANCHOR=dict(
-            STRIDE=8,
-            RATIOS=[0.33, 0.5, 1, 2, 3],
-            SCALES=[8],
-            ANCHOR_NUM=5
-        ),
-        # seems not used
-        TRACK=dict(
-            TYPE='SiamRPNTracker',
-            PENALTY_K=0.05,
-            WINDOW_INFLUENCE=0.42,
-            LR=0.38,
-            EXEMPLAR_SIZE=127,
-            INSTANCE_SIZE=255,
-            BASE_SIZE=8,
-            CONTEXT_AMOUNT=0.5
-        ))
+# model settings
+model = dict(type='mixformer_cvt_online_scores',
+             checkpoint='./models/MixFormer/models/mixformer_online_22k.pth.tar')
 
-model = dict(
-    type='ModelBuilder',
-    cfg=cfg)
-
-tracker = dict(
-    type='SiamRPNTracker',
-    cfg=model
-)
-
+# tracker settings, used for evaluation
+tracker = dict(type='mixformer_cvt_online_scores_tracker',
+               params=dict(
+                   model='mixformer_online_22k.pth.tar',
+                   update_interval=10000, online_sizes=1, search_area_scale=4.5,
+                   max_score_decay=1.0, vis_attn=0))
 
 # color transformation range: [0, 1]
 # imporve physical robustness
@@ -87,7 +43,7 @@ patch_transform = [
 epochs = 80
 patch_size = 300
 eval_interval = 20
-patch_path = 'patches/siamrpn_resnet_flytrap.png'
+patch_path = 'patches/mixformer_flytrap_atg_percepguard.png'
 
 # log settings
 log = False
@@ -95,7 +51,7 @@ log_cfg = dict(
     project='adcover-final',
     entity='shaoyux',
     save_code=True,
-    group='siamrpn',
+    group='mixformer',
     notes=''
 )
 
@@ -111,7 +67,7 @@ img_keys = ['search', 'template', 'online_template']
 train_pipeline = [
     dict(type='TemplateSample', same_video=True, online_template=True, num_online=1),
     dict(type='CustomLoadImageFromFile', img_keys=img_keys, to_float32=True, color_type='color'),
-    dict(type='CropTargetObjectTemplate', template_factor=2.0, template_size=127),
+    dict(type='CropTargetObjectTemplate', template_factor=2.0, template_size=128),
     dict(type='GaussianNoise', img_keys=img_keys, mean=0, var=5),
     # dict(type='CustomNormalize', img_keys=img_keys, **img_config),
     dict(type='CustomCollect',
@@ -157,21 +113,17 @@ test_dataset = dict(
 
 # loss settings
 loss = [
-    # dict(type='TVLoss', weight=0.000005),
+    dict(type='TVLoss', weight=0.000005),
     # should put this before LocalizationLoss
     # LocalizationLoss will change `gt_bbox` value
-    dict(type='AlignClassificationLoss', top_k=40, weight=1e-2),
-    dict(type='AlignLocalizationLoss', top_k=40, weight=10),
-    # dict(type='TargetLocalizationLossDet', weight=1e-2),
-    # dict(type='SmoothDynamicClassificationLossDet', weight=1),
-    # dict(type='PoseMSELoss', weight=1e-3),
+    dict(type='SmoothDynamicClassificationLoss', weight=1),
+    dict(type='TargetLocalizationLoss', weight=10),
 ]
 
 engine = dict(
-    type='PhysicalEngineV4',
+    type='PhysicalEnginePercepGuard',
     evolve_step=2,
     interval_distance=4,
-    out_size=255,
     render = dict(
         type='Renderer',
         device='cuda',
@@ -193,7 +145,7 @@ engine = dict(
 # ugly workaround here since apply the patch require range [0, 255]
 # convert into model input distribution
 post_transform = [
-    dict(type='CustomNormalize', img_keys=img_keys, normalize_factor=1.0, **model_img_config),
+    dict(type='CustomNormalize', img_keys=img_keys, **model_img_config),
 ]
 
 
