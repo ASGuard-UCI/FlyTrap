@@ -8,7 +8,7 @@ Autonomous Target Tracking (ATT) systems, especially ATT drones, are widely used
 
 ## Installation
 
-Run the following command to create the environment, it takes around 10 minutes:
+Run the following command to create the environment, it takes around 10 minutes. The environment is successfully tested on Ubuntu 20.04 with CUDA 11.3.
 
 ```bash
 # Create the environment
@@ -80,53 +80,85 @@ The checkpoints are organized as follows, if you used the above commands to down
 
 ## Reproduction
 
-### Effectiveness Evaluation (~1 hour)
+All the time estimation is based on a single NVIDIA RTX 3090 GPU. You can run each of the following experiments in parallel.
 
-> Corresponding to the effectiveness evaluation in **Table II** in the paper.
+### Attack Evaluation
+
+> Corresponding to the effectiveness evaluation in **Table II** and **Table III** in the paper.
 
 **Major Claims**: FlyTrap can achieve better effectiveness than TGT. FlyTrap<sub>PDP</sub> can achieve better effectiveness than vanilla FlyTrap.
 
-#### TGT effectiveness.
+#### FlyTrap Evaluation (~5 hours)
 
-Run the following command to evaluate target photo printing attack (TGT) effectiveness.
-
-```sh
-bash scripts/eval_tgt_effectiveness.sh
-```
-
-#### FlyTrap effectiveness.
-
-Run the following command to evaluate FlyTrap effectiveness.
+Run the following command to evaluate the effectiveness and universality of FlyTrap, all the trained adversarial patches are located in [`patches`](./patches):
 
 ```sh
-bash scripts/eval_flytrap_effectiveness.sh
+bash scripts/eval_flytrap.sh
 ```
 
-#### FlyTrap<sub>PDP</sub> effectiveness.
+The results will be saved in `work_dirs/` with the name of the config file. There are three files in the `work_dirs/` directory:
 
-Run the following command to evaluate FlyTrap with Progressive Distance Pulling (PDP) effectiveness.
+- `benign_results_epoch-1.json`: The tracker output before the attack.
+- `results_epoch-1.json`: The tracker output after the attack.
+- `metric_epoch-1.json`: The mASR on each evaluation video.
+
+To compute the detailed metric, we separate the evaluation videos into four categories based on the training set of the patch:
+
+- **Effectiveness** to same person and same location.
+- **Universality** to different person and same location (Universality to Person).
+- **Universality** to same person and different location (Universality to Location).
+- **Universality** to different person and different location (Universality to Both).
+
+To get the detailed metric, run the following command and follow the instructions in the terminal to get the final results and refer to Table I and II in the paper.
+
+```bash
+bash scripts/metric_summary.sh
+```
+
+#### TGT Evaluation (Full Evaluation, ~40 hours)
+
+If the evaluation time takes too long, you can only want to evaluate partial results on one model, please refer to the [partial evaluation section](#tgt-evaluation-partial-evaluation-10-hours) below.
+
+Run the following command to evaluate the effectiveness and universality of TGT Images, all the TGT baseline attack patches are located in [`tgt`](./tgt):
 
 ```sh
-bash scripts/eval_flytrap_pdp_effectiveness.sh
+bash scripts/eval_tgt.sh
 ```
 
-### Universality Evaluation (~1 hour)
+The results will be saved in `work_dirs/` with the name of the config file. There are three files in the `work_dirs/` directory:
 
-> Corresponding to the universality evaluation in **Table III** in the paper.
+- `benign_results_epoch-1.json`: The tracker output before the attack.
+- `results_epoch-1.json`: The tracker output after the attack.
+- `metric_epoch-1.json`: The mASR on each evaluation video.
 
-#### TGT universality.
+To get the detailed metric, run the following command and follow the instructions in the terminal to get the final results and refer to Table I and II in the paper.
+
+```bash
+bash scripts/metric_summary_tgt.sh
+```
+
+#### TGT Evaluation (Partial Evaluation, ~10 hours)
+
+You can specify the config file from the following list depends on the victim model you want to evaluate.
+
+- `config/final/mixformer_tgt.py`
+- `config/final/siamrpn_alex_tgt.py`
+- `config/final/siamrpn_mob_tgt.py`
+- `config/final/siamrpn_resnet_tgt.py`
+
+Then, run the following command to evaluate the effectiveness and universality of TGT Images on one model, all the TGT baseline attack patches are located in [`tgt`](./tgt). 
 
 ```sh
-bash scripts/eval_tgt_universality.sh
+bash scripts/eval_tgt_partial.sh <config_file>
 ```
 
-#### FlyTrap universality.
+To get the detailed metric, run the following command and follow the instructions in the terminal to get the final results and refer to Table I and II in the paper.
 
-```sh
-bash scripts/eval_flytrap_universality.sh
+```bash
+bash scripts/metric_summary_tgt_partial.sh <config_file>
 ```
 
-### Defense Evaluation (~1 hour)
+### Defense Evaluation
 
 #### PercepGuard Evaluation.
 

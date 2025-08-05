@@ -228,9 +228,10 @@ class AdversarialPatchRunner:
             print('Evaluating video:', video_name)
             results_dict[video_name], benign_results_dict[video_name] = self.test_video(video_dataset)
         # save results
-        self._save_json(results_dict, epoch)
+        prefix = self.config.prefix if hasattr(self.config, 'prefix') else 'results'
+        self._save_json(results_dict, epoch, prefix=prefix + '_results')
         if epoch == -1:
-            self._save_json(benign_results_dict, epoch, prefix='benign_results')
+            self._save_json(benign_results_dict, epoch, prefix=prefix + '_benign_results')
         return results_dict
 
     def _optimize_step(self, loss):
@@ -258,7 +259,9 @@ class AdversarialPatchRunner:
     def evaluate_epoch(self, results_dict, epoch: int = -1):
         """Attack Metric Evaluation."""
         metrics = self.eval_metric(results_dict)
-        self._save_json(metrics, epoch, prefix='metrics')
+        prefix = self.config.prefix if hasattr(self.config, 'prefix') else 'metrics'
+        prefix += '_metrics'
+        self._save_json(metrics, epoch, prefix=prefix)
         return metrics
 
     @staticmethod
