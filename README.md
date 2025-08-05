@@ -8,7 +8,7 @@ Autonomous Target Tracking (ATT) systems, especially ATT drones, are widely used
 
 ## Installation
 
-Run the following command to create the environment, it takes around 10 minutes. The environment is successfully tested on Ubuntu 20.04 with CUDA 11.3.
+Run the following command to create the environment; it takes around 10 minutes. The environment is successfully tested on Ubuntu 20.04 with CUDA 11.3.
 
 ```bash
 # Create the environment
@@ -16,9 +16,9 @@ conda env create -f environment.yml
 conda activate flytrap
 # Install pytorch3d
 pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py38_cu113_pyt1110/download.html
-# Install AlphaPose, this step might fail with error: 
+# Install AlphaPose, this step might fail with the error: 
 # SystemError: NULL result without error in PyObject_Call
-# but you can ignore the error and continue.
+# But you can ignore the error and continue.
 cd models/AlphaPose && python setup.py build develop
 cd ..
 # Install pysot
@@ -67,7 +67,7 @@ Then, download the pretrained models from [Google Drive](https://drive.google.co
 bash download.sh
 ```
 
-The checkpoints are organized as follows, if you used the above commands to download the checkpoints, it's already in the correct place.
+The checkpoints are organized as follows: if you used the above commands to download the checkpoints, they're already in the correct place.
 ```
 ├── ckpts/
 │   ├── torch_bdd100k.pth
@@ -88,7 +88,7 @@ The checkpoints are organized as follows, if you used the above commands to down
 
 All the time estimation is based on a single NVIDIA RTX 3090 GPU. You can run each of the following experiments in parallel.
 
-### Attack Evaluation (Table I and II)
+### Attack Evaluation (Tables I and II)
 
 **Major Claims**: 
 
@@ -97,7 +97,7 @@ All the time estimation is based on a single NVIDIA RTX 3090 GPU. You can run ea
 
 #### FlyTrap Evaluation (~5 hours)
 
-Run the following command to evaluate the effectiveness and universality of FlyTrap, all the trained adversarial patches are located in [`patches`](./patches):
+Run the following command to evaluate the effectiveness and universality of FlyTrap; all the trained adversarial patches are located in [`patches`](./patches):
 
 ```sh
 bash scripts/eval_flytrap.sh
@@ -111,12 +111,12 @@ The results will be saved in `work_dirs/` with the name of the config file. Ther
 
 To compute the detailed metric, we separate the evaluation videos into four categories based on the training set of the patch:
 
-- **Effectiveness** to same person and same location.
-- **Universality** to different person and same location (Universality to Person).
-- **Universality** to same person and different location (Universality to Location).
-- **Universality** to different person and different location (Universality to Both).
+- **Effectiveness** to the same person and the same location.
+- **Universality** to different persons and the same location (Universality to Person).
+- **Universality** to the same person and different location (Universality to Location).
+- **Universality** to different persons and different locations (Universality to Both).
 
-To get the detailed metric, run the following command and follow the instructions in the terminal to get the final results and refer to Table I and II in the paper.
+To get the detailed metric, run the following command and follow the instructions in the terminal to get the final results and refer to Tables I and II in the paper.
 
 ```bash
 bash scripts/metric_summary.sh
@@ -124,9 +124,9 @@ bash scripts/metric_summary.sh
 
 #### TGT Evaluation (Full Evaluation, ~40 hours)
 
-If the evaluation time takes too long, you can only want to evaluate partial results on one model, please refer to the [partial evaluation section](#tgt-evaluation-partial-evaluation-10-hours) below.
+If the evaluation time takes too long, you may only want to evaluate partial results on one model; please refer to the [partial evaluation section](#tgt-evaluation-partial-evaluation-10-hours) below.
 
-Run the following command to evaluate the effectiveness and universality of TGT Images, all the TGT baseline attack patches are located in [`tgt`](./tgt):
+Run the following command to evaluate the effectiveness and universality of TGT Images; all the TGT baseline attack patches are located in [`tgt`](./tgt):
 
 ```sh
 bash scripts/eval_tgt.sh
@@ -138,7 +138,7 @@ The results will be saved in `work_dirs/` with the name of the config file. Ther
 - `results_epoch-1.json`: The tracker output after the attack.
 - `metric_epoch-1.json`: The mASR on each evaluation video.
 
-To get the detailed metric, run the following command to get the final results and refer to Table I and II in the paper. You can specify the config file from the following list one by one and get the final results.
+To get the detailed metric, run the following command to get the final results and refer to Tables I and II in the paper. You can specify the config file from the following list one by one and get the final results.
 
 - `mixformer_tgt`
 - `siamrpn_alex_tgt`
@@ -151,14 +151,14 @@ python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>
 
 #### TGT Evaluation (Partial Evaluation, ~10 hours)
 
-You can specify the config file from the following list depends on the victim model you want to evaluate.
+You can specify the config file from the following list, depending on the victim model you want to evaluate.
 
 - `config/final/mixformer_tgt.py`
 - `config/final/siamrpn_alex_tgt.py`
 - `config/final/siamrpn_mob_tgt.py`
 - `config/final/siamrpn_resnet_tgt.py`
 
-Then, run the following command to evaluate the effectiveness and universality of TGT Images on one model, all the TGT baseline attack patches are located in [`tgt`](./tgt). 
+Then, run the following command to evaluate the effectiveness and universality of TGT Images on one model; all the TGT baseline attack patches are located in [`tgt`](./tgt). 
 
 ```bash
 bash scripts/eval_tgt_partial.sh <config_file_name>
@@ -176,9 +176,9 @@ python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>
 
 1. FlyTrap<sub>ATG</sub> can reduce the true alarm rate compared to vanilla FlyTrap.
 
-#### PercepGuard Evaluation (Table IV, ~2 hour)
+#### PercepGuard Evaluation (Table IV, ~2 hours)
 
-Run the following command one by one to evaluate benign case and FlyTrap<sub>ATG</sub> attack case.
+Run the following command one by one to evaluate the benign case and the FlyTrap<sub>ATG</sub> attack case.
 
 ```sh
 # Estimate time: ~1 hour
@@ -192,7 +192,7 @@ bash scripts/eval_perceguard.sh config/final/siamrpn_mob_percepguard.py patches/
 bash scripts/eval_perceguard.sh config/final/siamrpn_alex_percepguard.py patches/siamrpn_alex_flytrap_atg_percepguard.png
 ```
 
-Run the following command one by one to evaluate benign case and vanilla FlyTrap attack case.
+Run the following command one by one to evaluate the benign case and vanilla FlyTrap attack case.
 
 ```sh
 # Estimate time: ~1 hour
@@ -208,7 +208,7 @@ bash scripts/eval_perceguard.sh config/final/siamrpn_alex_percepguard.py patches
 
 #### VOGUES Evaluation (Table V, ~8 hours)
 
-Run the following command one by one to evaluate benign case and FlyTrap<sub>ATG</sub> attack case. You can also want to evaluate a single model by specifying one of the following command to save time.
+Run the following command one by one to evaluate the benign case and the FlyTrap<sub>ATG</sub> attack case. You can also want to evaluate a single model by specifying one of the following commands to save time.
 
 ```sh
 # Estimate time: ~4 hours
@@ -222,7 +222,7 @@ bash scripts/eval_vogues.sh config/final/siamrpn_mob_vogues.py patches/siamrpn_m
 bash scripts/eval_vogues.sh config/final/siamrpn_alex_vogues.py patches/siamrpn_alex_flytrap_atg_vogues.png
 ```
 
-Run the following command one by one to evaluate benign case and vanilla FlyTrap attack case.
+Run the following command one by one to evaluate the benign case and vanilla FlyTrap attack case.
 
 ```sh
 # Estimate time: ~4 hours
