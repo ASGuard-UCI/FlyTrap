@@ -132,11 +132,18 @@ The results will be saved in `work_dirs/` with the name of the config file. Ther
 - `results_epoch-1.json`: The tracker output after the attack.
 - `metric_epoch-1.json`: The mASR on each evaluation video.
 
-To get the detailed metric, run the following command and follow the instructions in the terminal to get the final results and refer to Table I and II in the paper.
+To get the detailed metric, run the following command to get the final results and refer to Table I and II in the paper. You can specify the config file from the following list depends on the victim model you want to evaluate.
+
+- `mixformer_tgt`
+- `siamrpn_alex_tgt`
+- `siamrpn_mob_tgt`
+- `siamrpn_resnet_tgt`
 
 ```bash
-bash scripts/metric_summary_tgt.sh
+python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>
 ```
+
+
 
 #### TGT Evaluation (Partial Evaluation, ~10 hours)
 
@@ -149,14 +156,14 @@ You can specify the config file from the following list depends on the victim mo
 
 Then, run the following command to evaluate the effectiveness and universality of TGT Images on one model, all the TGT baseline attack patches are located in [`tgt`](./tgt). 
 
-```sh
-bash scripts/eval_tgt_partial.sh <config_file>
+```bash
+bash scripts/eval_tgt_partial.sh <config_file_name>
 ```
 
-To get the detailed metric, run the following command and follow the instructions in the terminal to get the final results and refer to Table I and II in the paper.
+Then, for the final detailed metric, specify the config file name as the argument, including `mixformer_tgt`, `siamrpn_alex_tgt`, `siamrpn_mob_tgt`, `siamrpn_resnet_tgt`, depending on the victim model you evaluated above.
 
-```bash
-bash scripts/metric_summary_tgt_partial.sh <config_file>
+```sh
+python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>
 ```
 
 ### Defense Evaluation
