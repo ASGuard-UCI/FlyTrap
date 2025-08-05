@@ -11,7 +11,7 @@ applyer = dict(
 renderer = dict(
     type='Renderer',
     device='cuda',
-    mesh_file='data/render_obj/umbrella/umbrella.obj',
+    mesh_file='mesh/umbrella/umbrella.obj',
     image_size=300,
     camera_args=dict(dist=[55, 60], elev=[-5, 5], azim=[-5, 5]),
     camera_up=((0.3827, -0.9239, 0),),
