@@ -82,11 +82,12 @@ The checkpoints are organized as follows, if you used the above commands to down
 
 All the time estimation is based on a single NVIDIA RTX 3090 GPU. You can run each of the following experiments in parallel.
 
-### Attack Evaluation
+### Attack Evaluation (Table I and II)
 
-> Corresponding to the effectiveness evaluation in **Table II** and **Table III** in the paper.
+**Major Claims**: 
 
-**Major Claims**: FlyTrap can achieve better effectiveness than TGT. FlyTrap<sub>PDP</sub> can achieve better effectiveness than vanilla FlyTrap.
+1. FlyTrap can achieve better effectiveness than TGT. FlyTrap<sub>PDP</sub> can achieve better effectiveness than vanilla FlyTrap.
+2. FlyTrap<sub>PDP</sub> can achieve better universality than TGT.
 
 #### FlyTrap Evaluation (~5 hours)
 
@@ -160,26 +161,19 @@ bash scripts/metric_summary_tgt_partial.sh <config_file>
 
 ### Defense Evaluation
 
-#### PercepGuard Evaluation.
-
-> Corresponding to the PercepGuard evaluation in **Table IV** in the paper.
+#### PercepGuard Evaluation (Table IV)
 
 ```sh
 bash scripts/eval_perceguard.sh
 ```
 
-#### VOGUES Evaluation.
-
-> Corresponding to the VOGUES evaluation in **Table V** in the paper.
+#### VOGUES Evaluation (Table V)
 
 ```sh
 bash scripts/eval_vogues.sh
 ```
 
-#### FlyTrap<sub>ATG</sub> Evaluation.
-
-> Corresponding to the VOGUES evaluation in **Table VI** in the paper.
-
+#### FlyTrap<sub>ATG</sub> Evaluation (Table VI)
 
 ## Acknowledgments
 
