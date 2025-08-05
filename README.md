@@ -8,24 +8,37 @@ Autonomous Target Tracking (ATT) systems, especially ATT drones, are widely used
 
 ## Installation
 
-Run the following command to create the environment:
+Run the following command to create the environment, it takes around 10 minutes:
 
 ```bash
+# Create the environment
 conda env create -f environment.yml
 conda activate flytrap
+# Install pytorch3d
+pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py38_cu113_pyt1110/download.html
+# Install AlphaPose, this step might fail with error: 
+# SystemError: NULL result without error in PyObject_Call
+# but you can ignore the error and continue.
+cd models/AlphaPose && python setup.py build develop
+cd ..
+# Install pysot
+cd models/pysot && python setup.py build_ext --inplace
+cd ..
+# Setup MixFormer
+cd models/MixFormer && python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir .
+cd ..
 ```
 
 ## Data Preparation
 
-Download the dataset from [Google Drive](https://drive.google.com/file/d/1ezFU2-JiZC1szN5PnAUU_1ONDmAJM45W/view?usp=sharing). 
-
-You can download using `gdown` command:
+Download the dataset from [Google Drive](https://drive.google.com/file/d/1ezFU2-JiZC1szN5PnAUU_1ONDmAJM45W/view?usp=sharing). You can also download using `gdown` command:
 
 ```bash
 mkdir data && cd data
 pip install gdown
 gdown 1ezFU2-JiZC1szN5PnAUU_1ONDmAJM45W
 unzip dataset_v4.0.zip
+cd ..
 ```
 
 The dataset is organized as follows:
@@ -48,6 +61,22 @@ The dataset is organized as follows:
 │       └── train_template
 ```
 
+Then, download the pretrained models from [Google Drive](https://drive.google.com/drive/folders/1snpDOOAxZAvUrStP3QvJreaTe56gQhDV?usp=drive_link). You can also follow the following commands to download the checkpoints:
+
+```
+bash download.sh
+```
+
+The checkpoints are organized as follows, if you used the above commands to download the checkpoints, it's already in the correct place.
+```
+├── ckpts/
+│   ├── torch_bdd100k.pth
+│   ├── siamrpn_r50_l234_dwxcorr.pth
+│   ├── siamrpn_mobilev2_l234_dwxcorr.pth
+│   └── siamrpn_alex_dwxcorr.pth
+├── models/MixFormer/models/
+│   └── mixformer_online_22k.pth.tar
+```
 
 ## Reproduction
 
@@ -118,3 +147,13 @@ bash scripts/eval_vogues.sh
 #### FlyTrap<sub>ATG</sub> Evaluation.
 
 > Corresponding to the VOGUES evaluation in **Table VI** in the paper.
+
+
+## Acknowledgments
+
+We thank the following projects for their contributions:
+
+- [AlphaPose](https://github.com/MVIG-SJTU/AlphaPose)
+- [PySOT](https://github.com/STVIR/pysot)
+- [MixFormer](https://github.com/MCG-NJU/MixFormer)
+- [PercepGuard](https://github.com/Harry1993/PercepGuard)

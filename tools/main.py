@@ -15,8 +15,73 @@ from flytrap.runner import AdversarialPatchRunner
 utils.init_seeds(0)
 
 
-def main(config):
+def parse_cfg_options(cfg_options):
+    """Parse config options from command line.
+    
+    Args:
+        cfg_options (list): List of config options in format ['key=value', ...]
+        
+    Returns:
+        dict: Parsed config dictionary
+    """
+    cfg_dict = {}
+    for option in cfg_options:
+        if '=' not in option:
+            raise ValueError(f"Invalid config option format: {option}. Expected 'key=value'")
+        
+        key, value = option.split('=', 1)
+        
+        # Try to parse value as different types
+        # First try boolean
+        if value.lower() in ['true', 'false']:
+            value = value.lower() == 'true'
+        # Try integer
+        elif value.isdigit() or (value.startswith('-') and value[1:].isdigit()):
+            value = int(value)
+        # Try float
+        else:
+            try:
+                value = float(value)
+            except ValueError:
+                # Keep as string if can't parse as number
+                pass
+        
+        # Handle nested keys with dot notation
+        keys = key.split('.')
+        current = cfg_dict
+        for k in keys[:-1]:
+            if k not in current:
+                current[k] = {}
+            current = current[k]
+        current[keys[-1]] = value
+    
+    return cfg_dict
+
+
+def merge_cfg_dict(cfg, cfg_dict):
+    """Recursively merge config dictionary into MMEngine Config object.
+    
+    Args:
+        cfg: MMEngine Config object
+        cfg_dict: Dictionary with config overrides
+    """
+    for key, value in cfg_dict.items():
+        if isinstance(value, dict):
+            # If the attribute doesn't exist, create it
+            if not hasattr(cfg, key):
+                setattr(cfg, key, Config({}))
+            merge_cfg_dict(getattr(cfg, key), value)
+        else:
+            setattr(cfg, key, value)
+
+
+def main(config, cfg_options=None):
     cfg = Config.fromfile(config)
+    
+    # Merge command line config options if provided
+    if cfg_options:
+        cfg_dict = parse_cfg_options(cfg_options)
+        merge_cfg_dict(cfg, cfg_dict)
 
     # work_dir = cfg.work_dir
     work_dir = 'work_dirs/' + os.path.basename(config).split('.')[0]
@@ -107,7 +172,11 @@ def main(config):
 
 
 if __name__ == '__main__':
-    argparse = argparse.ArgumentParser()
-    argparse.add_argument('config', type=str)
-    args = argparse.parse_args()
-    main(args.config)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('config', type=str, help='Path to config file')
+    parser.add_argument('--cfg-options', nargs='*', default=[], 
+                       help='Override config options using key=value format. '
+                            'Examples: --cfg-options eval=true epochs=100 train_dataloader.batch_size=16')
+    
+    args = parser.parse_args()
+    main(args.config, args.cfg_options)
