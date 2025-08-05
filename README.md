@@ -74,8 +74,14 @@ The checkpoints are organized as follows, if you used the above commands to down
 │   ├── siamrpn_r50_l234_dwxcorr.pth
 │   ├── siamrpn_mobilev2_l234_dwxcorr.pth
 │   └── siamrpn_alex_dwxcorr.pth
-├── models/MixFormer/models/
-│   └── mixformer_online_22k.pth.tar
+├── models/
+│   ├── MixFormer/
+│   │   └── models/
+│   │       └── mixformer_online_22k.pth.tar
+│   └── VOGUES/
+│       └── model.pt
+│       └── pretrained_models/
+│           └── multi_domain_fast50_dcn_combined_256x192.pth
 ```
 
 ## Reproduction
@@ -166,19 +172,69 @@ python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>
 
 ### Defense Evaluation
 
-#### PercepGuard Evaluation (Table IV)
+**Major Claims**: 
+
+1. FlyTrap<sub>ATG</sub> can reduce the true alarm rate compared to vanilla FlyTrap.
+
+#### PercepGuard Evaluation (Table IV, ~2 hour)
+
+Run the following command one by one to evaluate benign case and FlyTrap<sub>ATG</sub> attack case.
 
 ```sh
-bash scripts/eval_perceguard.sh
+# Estimate time: ~1 hour
+# Evaluation MixFormer
+bash scripts/eval_perceguard.sh config/final/mixformer_percepguard.py patches/mixformer_flytrap_atg_percepguard.png
+# Evaluation SiamRPN-ResNet
+bash scripts/eval_perceguard.sh config/final/siamrpn_resnet_percepguard.py patches/siamrpn_resnet_flytrap_atg_percepguard.png
+# Evaluation SiamRPN-Mobile
+bash scripts/eval_perceguard.sh config/final/siamrpn_mob_percepguard.py patches/siamrpn_mobile_flytrap_atg_percepguard.png
+# Evaluation SiamRPN-Alex
+bash scripts/eval_perceguard.sh config/final/siamrpn_alex_percepguard.py patches/siamrpn_alex_flytrap_atg_percepguard.png
 ```
 
-#### VOGUES Evaluation (Table V)
+Run the following command one by one to evaluate benign case and vanilla FlyTrap attack case.
 
 ```sh
-bash scripts/eval_vogues.sh
+# Estimate time: ~1 hour
+# Evaluation MixFormer
+bash scripts/eval_perceguard.sh config/final/mixformer_percepguard.py patches/mixformer_flytrap.png
+# Evaluation SiamRPN-ResNet
+bash scripts/eval_perceguard.sh config/final/siamrpn_resnet_percepguard.py patches/siamrpn_resnet_flytrap.png
+# Evaluation SiamRPN-Mobile
+bash scripts/eval_perceguard.sh config/final/siamrpn_mob_percepguard.py patches/siamrpn_mobile_flytrap.png
+# Evaluation SiamRPN-Alex
+bash scripts/eval_perceguard.sh config/final/siamrpn_alex_percepguard.py patches/siamrpn_alex_flytrap.png
 ```
 
-#### FlyTrap<sub>ATG</sub> Evaluation (Table VI)
+#### VOGUES Evaluation (Table V, ~8 hours)
+
+Run the following command one by one to evaluate benign case and FlyTrap<sub>ATG</sub> attack case. You can also want to evaluate a single model by specifying one of the following command to save time.
+
+```sh
+# Estimate time: ~4 hours
+# Evaluation MixFormer
+bash scripts/eval_vogues.sh config/final/mixformer_vogues.py patches/mixformer_flytrap_atg_vogues.png
+# Evaluation SiamRPN-ResNet
+bash scripts/eval_vogues.sh config/final/siamrpn_resnet_vogues.py patches/siamrpn_resnet_flytrap_atg_vogues.png
+# Evaluation SiamRPN-Mobile
+bash scripts/eval_vogues.sh config/final/siamrpn_mob_vogues.py patches/siamrpn_mobile_flytrap_atg_vogues.png
+# Evaluation SiamRPN-Alex
+bash scripts/eval_vogues.sh config/final/siamrpn_alex_vogues.py patches/siamrpn_alex_flytrap_atg_vogues.png
+```
+
+Run the following command one by one to evaluate benign case and vanilla FlyTrap attack case.
+
+```sh
+# Estimate time: ~4 hours
+# Evaluation MixFormer
+bash scripts/eval_vogues.sh config/final/mixformer_vogues.py patches/mixformer_flytrap.png
+# Evaluation SiamRPN-ResNet
+bash scripts/eval_vogues.sh config/final/siamrpn_resnet_vogues.py patches/siamrpn_resnet_flytrap.png
+# Evaluation SiamRPN-Mobile
+bash scripts/eval_vogues.sh config/final/siamrpn_mob_vogues.py patches/siamrpn_mobile_flytrap.png
+# Evaluation SiamRPN-Alex
+bash scripts/eval_vogues.sh config/final/siamrpn_alex_vogues.py patches/siamrpn_alex_flytrap.png
+```
 
 ## Acknowledgments
 
