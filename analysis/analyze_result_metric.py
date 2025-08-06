@@ -1,9 +1,7 @@
 import os
 import numpy as np
 import json
-import seaborn as sns
 import re
-import matplotlib.pyplot as plt
 import argparse
 import sys
 
@@ -15,9 +13,6 @@ def parse_args():
     parser.add_argument('--files', type=str, nargs='+',
                        help='Multiple JSON result files to analyze (alternative to --file)')
     return parser.parse_args()
-
-
-
 
 
 def _compute_single(data, score_threshold, area_threshold):
