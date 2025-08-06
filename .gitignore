@@ -39,6 +39,7 @@ ckpts/
 logs/
 output/
 outputs/
+work_dirs/
 runs/
 exp_analysis/figs/
 figs/
