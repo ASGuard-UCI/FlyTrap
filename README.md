@@ -92,8 +92,10 @@ All the time estimation is based on a single NVIDIA RTX 3090 GPU. You can run ea
 
 **Major Claims**: 
 
-1. FlyTrap can achieve better effectiveness than TGT. FlyTrap<sub>PDP</sub> can achieve better effectiveness than vanilla FlyTrap.
+1. FlyTrap<sub>PDP</sub> can achieve better effectiveness than TGT. FlyTrap<sub>PDP</sub> can achieve better effectiveness than vanilla FlyTrap.
 2. FlyTrap<sub>PDP</sub> can achieve better universality than TGT.
+
+> The TGT baseline attack number might differ from what reported in the paper. We also update this part during the revision process. But the main claim that FlyTrap<sub>PDP</sub> can achieve better effectiveness than TGT is still valid.
 
 #### FlyTrap Evaluation (~5 hours)
 
@@ -167,7 +169,7 @@ bash scripts/eval_tgt_partial.sh <config_file_name>
 Then, for the final detailed metric, specify the config file name as the argument, including `mixformer_tgt`, `siamrpn_alex_tgt`, `siamrpn_mob_tgt`, `siamrpn_resnet_tgt`, depending on the victim model you evaluated above.
 
 ```sh
-python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>
+python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>/json_files/
 ```
 
 ### Defense Evaluation
