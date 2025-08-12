@@ -1,4 +1,4 @@
-name: flytrap_ae
+name: flytrap
 channels:
   - pytorch
   - conda-forge
