@@ -35,16 +35,16 @@ pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.co
 # Install cython_bbox
 pip install cython==0.27.3
 pip install cython_bbox==0.1.3
-# Install AlphaPose, this step might fail with the error: 
-# SystemError: NULL result without error in PyObject_Call
-# But you can ignore the error and continue.
-cd models/AlphaPose && python setup.py build develop
-cd ../..
 # Install pysot
 cd models/pysot && python setup.py build_ext --inplace
 cd ../..
-# Setup MixFormer
+# Install MixFormer
 cd models/MixFormer && python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir .
+cd ../..
+# Install VOGUES, this step might fail with the error: 
+# SystemError: NULL result without error in PyObject_Call
+# But you can ignore the error and continue.
+cd models/VOGUES && python setup.py build develop
 cd ../..
 ```
 
