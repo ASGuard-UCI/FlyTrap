@@ -118,10 +118,19 @@ All the time estimation is based on a single NVIDIA RTX 3090 GPU. You can run ea
 
 #### FlyTrap Evaluation (~5 hours)
 
-Run the following command to evaluate the effectiveness and universality of FlyTrap; all the trained adversarial patches are located in [`patches`](./patches):
+Run the following command to evaluate the effectiveness and universality of FlyTrap. All the trained adversarial patches are located in [`patches`](./patches).
 
 ```sh
 bash scripts/eval_flytrap.sh
+```
+
+If the above command takes too long, you can also evaluate partial results by running a single model (e.g., `Mixformer`), this will take around 1 hour:
+
+```sh
+# FlyTrap w/o PDP
+python tools/main.py config/final/mixformer.py
+# FlyTrap w/ PDP
+python tools/main.py config/final/mixformer_pdp.py
 ```
 
 The results will be saved in `work_dirs/` with the name of the config file. There are three files in the `work_dirs/` directory:
