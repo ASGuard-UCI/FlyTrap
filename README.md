@@ -8,6 +8,22 @@ Autonomous Target Tracking (ATT) systems, especially ATT drones, are widely used
 
 ## Installation
 
+Prepare the GCC version 9 and CUDA 11.3 environment.
+
+```bash
+# Install gcc version 9
+sudo apt update
+sudo apt install gcc-9 g++-9
+# set environment variable
+export CC=/usr/bin/gcc-9
+export CXX=/usr/bin/g++-9
+# verify gcc version 9
+gcc --version
+# install cuda 11.3 if not, using the following link:
+# https://developer.nvidia.com/cuda-11.3.0-download-archive
+export CUDA_HOME=/usr/local/cuda-11.3
+```
+
 Run the following command to create the environment; it takes around 10 minutes. The environment is successfully tested on Ubuntu 20.04 with CUDA 11.3.
 
 ```bash
@@ -16,17 +32,20 @@ conda env create -f environment.yml
 conda activate flytrap
 # Install pytorch3d
 pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py38_cu113_pyt1110/download.html
+# Install cython_bbox
+pip install cython==0.27.3
+pip install cython_bbox==0.1.3
 # Install AlphaPose, this step might fail with the error: 
 # SystemError: NULL result without error in PyObject_Call
 # But you can ignore the error and continue.
 cd models/AlphaPose && python setup.py build develop
-cd ..
+cd ../..
 # Install pysot
 cd models/pysot && python setup.py build_ext --inplace
-cd ..
+cd ../..
 # Setup MixFormer
 cd models/MixFormer && python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir .
-cd ..
+cd ../..
 ```
 
 ## Data Preparation

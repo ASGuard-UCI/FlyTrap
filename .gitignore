@@ -53,4 +53,5 @@ Icon?
 data/
 Data/
 DATA/
+!models/MixFormer/lib/train/data/
 # End of Selection
