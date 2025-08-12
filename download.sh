@@ -7,7 +7,7 @@ gdown 19J3juew8Hco_1dPrKLvk2dhpYv3edhoT
 gdown 1vQMj6g8E2suQrs-5OTFEgUWJfFe3BRPT
 
 cd ..
-cd models/MixFormer/models
+mkdir -p models/MixFormer/models && cd models/MixFormer/models
 gdown 1kOOEDi_wA7u0kWKJUbVxEqHv6INIPjgn
 cd ..
 
