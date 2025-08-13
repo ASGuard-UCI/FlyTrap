@@ -121,15 +121,17 @@ All the time estimation is based on a single NVIDIA RTX 3090 GPU. You can run ea
 Run the following command to evaluate the effectiveness and universality of FlyTrap. All the trained adversarial patches are located in [`patches`](./patches).
 
 ```sh
+# If this command takes too long
+# please refer to the partial evaluation section below
 bash scripts/eval_flytrap.sh
 ```
 
 If the above command takes too long, you can also evaluate partial results by running a single model (e.g., `Mixformer`), this will take around 1 hour:
 
 ```sh
-# FlyTrap w/o PDP
+# FlyTrap w/o PDP (Estimated time: ~30 minutes)
 python tools/main.py config/final/mixformer.py
-# FlyTrap w/ PDP
+# FlyTrap w/ PDP (Estimated time: ~30 minutes)
 python tools/main.py config/final/mixformer_pdp.py
 ```
 
@@ -146,7 +148,7 @@ To compute the detailed metric, we separate the evaluation videos into four cate
 - **Universality** to the same person and different location (Universality to Location).
 - **Universality** to different persons and different locations (Universality to Both).
 
-To get the detailed metric, run the following command and follow the instructions in the terminal to get the final results and refer to Tables I and II in the paper.
+To get the detailed metric, run the following command and follow the instructions in the terminal to get the final results and refer to Tables I and II in the paper. If you only evaluated partial results above, you can ignore the error raised by missing files for other models.
 
 ```bash
 bash scripts/metric_summary.sh
@@ -154,7 +156,7 @@ bash scripts/metric_summary.sh
 
 #### TGT Evaluation (Full Evaluation, ~40 hours)
 
-If the evaluation time takes too long, you may only want to evaluate partial results on one model; please refer to the [partial evaluation section](#tgt-evaluation-partial-evaluation-10-hours) below.
+If the evaluation time takes too long, you may only want to evaluate partial results on one model; please refer to the [partial evaluation section](#tgt-evaluation-partial-evaluation-10-hours) below, which takes around 10 hours. If it's still too long, we provide the results json files for computing the detailed metric, please refer to the [detailed metric section](#detailed-metric) below.
 
 Run the following command to evaluate the effectiveness and universality of TGT Images; all the TGT baseline attack patches are located in [`tgt`](./tgt):
 
@@ -198,6 +200,25 @@ Then, for the final detailed metric, specify the config file name as the argumen
 
 ```sh
 python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>/json_files/
+```
+
+#### TGT Metric Evaluation (Partial Evaluation, ~5 minute)
+
+If the above command takes too long, you can also evaluate our generated results by running a single model (e.g., `Mixformer`), this will take around 1 minute:
+
+```sh
+# Download the results json files
+gdown 1LCFybYCtAz2oCw4qMfOyCflHw6mqxWCN
+unzip tgt_results.zip
+
+# Evaluate the Mixformer results
+python analysis/analyze_tgt_metric.py --input_dir tgt_results/mixformer_cvt_position_engine_final_tgt_scale15/json_files/
+# Evaluate the SiamRPN-AlexNet results
+python analysis/analyze_tgt_metric.py --input_dir tgt_results/siamrpn_alexnet_engine_final_tgt_scale15/json_files/
+# Evaluate the SiamRPN-MobileNet results
+python analysis/analyze_tgt_metric.py --input_dir tgt_results/siamrpn_mobilenet_engine_final_tgt_scale15/json_files/
+# Evaluate the SiamRPN-ResNet results
+python analysis/analyze_tgt_metric.py --input_dir tgt_results/siamrpn_resnet_engine_final_tgt_scale15/json_files/
 ```
 
 ### Defense Evaluation

@@ -7,7 +7,7 @@ import argparse
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='Analyze target metric results')
-parser.add_argument('--input_dir', type=str, required=True, 
+parser.add_argument('--input_dir', type=str, default='work_dirs/siamrpn_alex_tgt', 
                     help='Input directory containing result JSON files')
 args = parser.parse_args()
 
@@ -93,22 +93,24 @@ def compute_metrics_for_file(filepath):
     area_thresholds = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
     score_thresholds = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
     
-    # Initialize lists to store mASR values for each video
-    effectiveness_masrs = []
-    uni_person_masrs = []
-    uni_location_masrs = []
-    uni_person_location_masrs = []
+    # Initialize counters for different metrics (frame-weighted)
+    effectiveness = 0
+    effectiveness_count = 0
+    uni_person = 0
+    uni_person_count = 0
+    uni_location = 0
+    uni_location_count = 0
+    uni_person_location = 0
+    uni_person_location_count = 0
     
     # Load data
     data = json.load(open(filepath))
     
     total_frame_count = 0
-    total_video_count = 0
     
     for video_name, video_data in data.items():
         frame_count = len(video_data)
         total_frame_count += frame_count
-        total_video_count += 1
         
         # Extract person and location from video name
         video_person, video_location = extract_person_location_from_video_name(video_name)
@@ -126,40 +128,37 @@ def compute_metrics_for_file(filepath):
         
         print(f"    Video: {video_name} -> Person: {video_person}, Location: {video_location}, mASR: {mASR:.3f}, Frames: {frame_count}")
         
-        # Categorize based on video's person and location vs reference
+        # Categorize based on video's person and location vs reference (weighted by frame count)
         if video_person == reference_person and video_location == reference_location:
             # Effectiveness: same person and same location as reference
-            effectiveness_masrs.append(mASR)
+            effectiveness += mASR * frame_count
+            effectiveness_count += frame_count
         elif video_person != reference_person and video_location == reference_location:
             # Universality to person: different person, same location as reference
-            uni_person_masrs.append(mASR)
+            uni_person += mASR * frame_count
+            uni_person_count += frame_count
         elif video_person == reference_person and video_location != reference_location:
             # Universality to location: same person as reference, different location
-            uni_location_masrs.append(mASR)
+            uni_location += mASR * frame_count
+            uni_location_count += frame_count
         else:
             # Universality to both: different person and different location from reference
-            uni_person_location_masrs.append(mASR)
-    
-    # Compute file-level averages
-    effectiveness_avg = np.mean(effectiveness_masrs) if effectiveness_masrs else 0
-    uni_person_avg = np.mean(uni_person_masrs) if uni_person_masrs else 0
-    uni_location_avg = np.mean(uni_location_masrs) if uni_location_masrs else 0
-    uni_person_location_avg = np.mean(uni_person_location_masrs) if uni_person_location_masrs else 0
+            uni_person_location += mASR * frame_count
+            uni_person_location_count += frame_count
     
     return {
         'filepath': filepath,
         'reference_person': reference_person,
         'reference_location': reference_location,
         'total_frames': total_frame_count,
-        'total_videos': total_video_count,
-        'effectiveness_avg': effectiveness_avg,
-        'uni_person_avg': uni_person_avg,
-        'uni_location_avg': uni_location_avg,
-        'uni_person_location_avg': uni_person_location_avg,
-        'effectiveness_count': len(effectiveness_masrs),
-        'uni_person_count': len(uni_person_masrs),
-        'uni_location_count': len(uni_location_masrs),
-        'uni_person_location_count': len(uni_person_location_masrs)
+        'effectiveness': effectiveness,
+        'effectiveness_count': effectiveness_count,
+        'uni_person': uni_person,
+        'uni_person_count': uni_person_count,
+        'uni_location': uni_location,
+        'uni_location_count': uni_location_count,
+        'uni_person_location': uni_person_location,
+        'uni_person_location_count': uni_person_location_count
     }
 
 # Process all files
@@ -169,11 +168,15 @@ for filepath in result_files:
     if result is not None:
         all_results.append(result)
 
-# Aggregate results across all files (simple average across files)
-file_effectiveness_avgs = []
-file_uni_person_avgs = []
-file_uni_location_avgs = []
-file_uni_person_location_avgs = []
+# Aggregate results across all files (weighted by frame count)
+total_effectiveness = 0
+total_effectiveness_count = 0
+total_uni_person = 0
+total_uni_person_count = 0
+total_uni_location = 0
+total_uni_location_count = 0
+total_uni_person_location = 0
+total_uni_person_location_count = 0
 
 print("\n" + "="*80)
 print("INDIVIDUAL FILE RESULTS:")
@@ -182,62 +185,68 @@ print("="*80)
 for result in all_results:
     print(f"\nFile: {os.path.basename(result['filepath'])}")
     print(f"Reference: {result['reference_person']}, {result['reference_location']}")
-    print(f"Total videos: {result['total_videos']}, Total frames: {result['total_frames']}")
+    print(f"Total frames: {result['total_frames']}")
     
     if result['effectiveness_count'] > 0:
-        effectiveness_rate = result['effectiveness_avg'] * 100
-        print(f"Effectiveness: {effectiveness_rate:.1f}% ({result['effectiveness_count']} videos)")
-        file_effectiveness_avgs.append(result['effectiveness_avg'])
+        effectiveness_rate = (result['effectiveness'] / result['effectiveness_count']) * 100
+        print(f"Effectiveness: {effectiveness_rate:.1f}% ({result['effectiveness_count']} frames)")
     else:
         print(f"Effectiveness: No data")
     
     if result['uni_person_count'] > 0:
-        uni_person_rate = result['uni_person_avg'] * 100
-        print(f"Uni Person: {uni_person_rate:.1f}% ({result['uni_person_count']} videos)")
-        file_uni_person_avgs.append(result['uni_person_avg'])
+        uni_person_rate = (result['uni_person'] / result['uni_person_count']) * 100
+        print(f"Uni Person: {uni_person_rate:.1f}% ({result['uni_person_count']} frames)")
     else:
         print(f"Uni Person: No data")
     
     if result['uni_location_count'] > 0:
-        uni_location_rate = result['uni_location_avg'] * 100
-        print(f"Uni Location: {uni_location_rate:.1f}% ({result['uni_location_count']} videos)")
-        file_uni_location_avgs.append(result['uni_location_avg'])
+        uni_location_rate = (result['uni_location'] / result['uni_location_count']) * 100
+        print(f"Uni Location: {uni_location_rate:.1f}% ({result['uni_location_count']} frames)")
     else:
         print(f"Uni Location: No data")
     
     if result['uni_person_location_count'] > 0:
-        uni_person_location_rate = result['uni_person_location_avg'] * 100
-        print(f"Uni Person Location: {uni_person_location_rate:.1f}% ({result['uni_person_location_count']} videos)")
-        file_uni_person_location_avgs.append(result['uni_person_location_avg'])
+        uni_person_location_rate = (result['uni_person_location'] / result['uni_person_location_count']) * 100
+        print(f"Uni Person Location: {uni_person_location_rate:.1f}% ({result['uni_person_location_count']} frames)")
     else:
         print(f"Uni Person Location: No data")
+    
+    # Aggregate for overall calculation
+    total_effectiveness += result['effectiveness']
+    total_effectiveness_count += result['effectiveness_count']
+    total_uni_person += result['uni_person']
+    total_uni_person_count += result['uni_person_count']
+    total_uni_location += result['uni_location']
+    total_uni_location_count += result['uni_location_count']
+    total_uni_person_location += result['uni_person_location']
+    total_uni_person_location_count += result['uni_person_location_count']
 
 # Compute overall metrics
 print("\n" + "="*80)
-print("OVERALL RESULTS (simple average across all files):")
+print("OVERALL RESULTS (weighted by frame count across all files):")
 print("="*80)
 
-if len(file_effectiveness_avgs) > 0:
-    overall_effectiveness = np.mean(file_effectiveness_avgs) * 100
-    print(f"Effectiveness: {overall_effectiveness:.2f}% ({len(file_effectiveness_avgs)} total files)")
+if total_effectiveness_count > 0:
+    overall_effectiveness = (total_effectiveness / total_effectiveness_count) * 100
+    print(f"Effectiveness: {overall_effectiveness:.2f}% ({total_effectiveness_count} total frames)")
 else:
     print("Effectiveness: No data")
 
-if len(file_uni_person_avgs) > 0:
-    overall_uni_person = np.mean(file_uni_person_avgs) * 100
-    print(f"Universality to Person: {overall_uni_person:.2f}% ({len(file_uni_person_avgs)} total files)")
+if total_uni_person_count > 0:
+    overall_uni_person = (total_uni_person / total_uni_person_count) * 100
+    print(f"Universality to Person: {overall_uni_person:.2f}% ({total_uni_person_count} total frames)")
 else:
     print("Universality to Person: No data")
 
-if len(file_uni_location_avgs) > 0:
-    overall_uni_location = np.mean(file_uni_location_avgs) * 100
-    print(f"Universality to Location: {overall_uni_location:.2f}% ({len(file_uni_location_avgs)} total files)")
+if total_uni_location_count > 0:
+    overall_uni_location = (total_uni_location / total_uni_location_count) * 100
+    print(f"Universality to Location: {overall_uni_location:.2f}% ({total_uni_location_count} total frames)")
 else:
     print("Universality to Location: No data")
 
-if len(file_uni_person_location_avgs) > 0:
-    overall_uni_person_location = np.mean(file_uni_person_location_avgs) * 100
-    print(f"Universality to Person & Location: {overall_uni_person_location:.2f}% ({len(file_uni_person_location_avgs)} total files)")
+if total_uni_person_location_count > 0:
+    overall_uni_person_location = (total_uni_person_location / total_uni_person_location_count) * 100
+    print(f"Universality to Person & Location: {overall_uni_person_location:.2f}% ({total_uni_person_location_count} total frames)")
 else:
     print("Universality to Person & Location: No data")
 
@@ -245,4 +254,4 @@ print("\n" + "="*80)
 print("SUMMARY:")
 print("="*80)
 print(f"Total files processed: {len(all_results)}")
-print(f"Total file counts: E={len(file_effectiveness_avgs)}, UP={len(file_uni_person_avgs)}, UL={len(file_uni_location_avgs)}, UPL={len(file_uni_person_location_avgs)}")
+print(f"Total frame counts: E={total_effectiveness_count}, UP={total_uni_person_count}, UL={total_uni_location_count}, UPL={total_uni_person_location_count}")
