@@ -178,7 +178,7 @@ To get the detailed metric, run the following command to get the final results a
 - `siamrpn_resnet_tgt`
 
 ```bash
-python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>
+python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>/json_files
 ```
 
 #### TGT Evaluation (Partial Evaluation, ~10 hours)
