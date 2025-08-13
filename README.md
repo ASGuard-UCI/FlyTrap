@@ -202,7 +202,7 @@ Then, for the final detailed metric, specify the config file name as the argumen
 python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>/json_files/
 ```
 
-#### TGT Metric Evaluation (Partial Evaluation, ~5 minute)
+#### TGT Metric Evaluation (Pre-computed Results, ~5 minute)
 
 If the above command takes too long, you can also evaluate our generated results by running a single model (e.g., `Mixformer`), this will take around 1 minute:
 
