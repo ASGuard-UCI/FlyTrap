@@ -6,6 +6,23 @@ Submit to NDSS 2026 Artifact Evaluation.
 
 Autonomous Target Tracking (ATT) systems, especially ATT drones, are widely used in applications such as surveillance, border control, and law enforcement, while also being misused in stalking and destructive actions. Thus, the security of ATT is highly critical for real-world applications. Under the scope, we present a new type of attack: distance-pulling attacks (DPA) and a systematic study of it, which exploits vulnerabilities in ATT systems to dangerously reduce tracking distances, leading to drone capturing, increased susceptibility to sensor attacks, or even physical collisions. To achieve these goals, we present FlyTrap, a novel physical-world attack framework that employs an adversarial umbrella as a deployable and domain-specific attack vector. In this artifact, we provide the instructions to reproduce the main results in the paper to support our main claim and main contribution.
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Data Preparation](#data-preparation)
+- [Reproduction](#reproduction)
+  - [Attack Evaluation (Tables I and II)](#attack-evaluation-tables-i-and-ii)
+    - [FlyTrap Evaluation (~5 hours)](#flytrap-evaluation-5-hours)
+    - [TGT Evaluation (Full Evaluation, ~40 hours)](#tgt-evaluation-full-evaluation-40-hours)
+    - [TGT Evaluation (Partial Evaluation, ~10 hours)](#tgt-evaluation-partial-evaluation-10-hours)
+    - [TGT Metric Evaluation (Pre-computed Results, ~5 minute)](#tgt-metric-evaluation-pre-computed-results-5-minute)
+  - [Defense Evaluation](#defense-evaluation)
+    - [PercepGuard Evaluation (Table IV, ~2 hours)](#percepguard-evaluation-table-iv-2-hours)
+    - [VOGUES Evaluation (Table V, ~8 hours)](#vogues-evaluation-table-v-8-hours)
+- [Acknowledgments](#acknowledgments)
+
+
+
 ## Installation
 
 Prepare the GCC version 9 and CUDA 11.3 environment.
