@@ -114,7 +114,21 @@ All the time estimation is based on a single NVIDIA RTX 3090 GPU. You can run ea
 1. FlyTrap<sub>PDP</sub> can achieve better effectiveness than TGT. FlyTrap<sub>PDP</sub> can achieve better effectiveness than vanilla FlyTrap.
 2. FlyTrap<sub>PDP</sub> can achieve better universality than TGT.
 
-> The TGT baseline attack number might differ from what reported in the paper. We also update this part during the revision process. But the main claim that FlyTrap<sub>PDP</sub> can achieve better effectiveness than TGT is still valid.
+We've updated the TGT baseline attack number in the revision process. Please refer to the latest table below for reference.
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="assets/table2.png" alt="Table 2" height="200px"><br>
+      <b>Table 2</b>
+    </td>
+    <td align="center">
+      <img src="assets/table3.png" alt="Table 3" height="200px"><br>
+      <b>Table 3</b>
+    </td>
+  </tr>
+</table>
+
 
 #### FlyTrap Evaluation (~5 hours)
 
