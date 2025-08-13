@@ -156,7 +156,7 @@ bash scripts/metric_summary.sh
 
 #### TGT Evaluation (Full Evaluation, ~40 hours)
 
-If the evaluation time takes too long, you may only want to evaluate partial results on one model; please refer to the [partial evaluation section](#tgt-evaluation-partial-evaluation-10-hours) below, which takes around 10 hours. If it's still too long, we provide the results json files for computing the detailed metric, please refer to the [detailed metric section](#detailed-metric) below.
+If the evaluation time takes too long, you may only want to evaluate partial results on one model; please refer to the [partial evaluation section](#tgt-evaluation-partial-evaluation-10-hours) below, which takes around 10 hours. If it's still too long, we provide the results json files for computing the detailed metric, please refer to the [pre-computed results section](#tgt-metric-evaluation-pre-computed-results-5-minute) below.
 
 Run the following command to evaluate the effectiveness and universality of TGT Images; all the TGT baseline attack patches are located in [`tgt`](./tgt):
 
