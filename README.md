@@ -52,6 +52,7 @@ pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.co
 # Install cython_bbox
 pip install cython==0.27.3
 pip install cython_bbox==0.1.3
+pip install opencv-python-headless
 # Install pysot
 cd models/pysot && python setup.py build_ext --inplace
 cd ../..
