@@ -65,6 +65,12 @@ cd models/VOGUES && python setup.py build develop
 cd ../..
 ```
 
+You can also use the Dockerfile to create the environment.
+```bash
+docker build -t flytrap .
+docker run -it --gpus all --shm-size 16g -v $(pwd):/workspace flytrap
+```
+
 ## Data Preparation
 
 Download the dataset from [Google Drive](https://drive.google.com/file/d/1ezFU2-JiZC1szN5PnAUU_1ONDmAJM45W/view?usp=sharing). You can also download using `gdown` command:
