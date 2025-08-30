@@ -1,24 +1,20 @@
-# FlyTrap: Physical Distance-Pulling Attack Towards Camera-based Autonomous Target Tracking Systems
+# ☂️ FlyTrap: Physical Distance-Pulling Attack Towards Camera-based Autonomous Target Tracking Systems
 
 ## About
-
-Submit to NDSS 2026 Artifact Evaluation.
 
 Autonomous Target Tracking (ATT) systems, especially ATT drones, are widely used in applications such as surveillance, border control, and law enforcement, while also being misused in stalking and destructive actions. Thus, the security of ATT is highly critical for real-world applications. Under the scope, we present a new type of attack: distance-pulling attacks (DPA) and a systematic study of it, which exploits vulnerabilities in ATT systems to dangerously reduce tracking distances, leading to drone capturing, increased susceptibility to sensor attacks, or even physical collisions. To achieve these goals, we present FlyTrap, a novel physical-world attack framework that employs an adversarial umbrella as a deployable and domain-specific attack vector. In this artifact, we provide the instructions to reproduce the main results in the paper to support our main claim and main contribution.
 
 ## Table of Contents
 
 - [Installation](#installation)
-- [Data Preparation](#data-preparation)
 - [Reproduction](#reproduction)
-  - [Attack Evaluation (Tables I and II)](#attack-evaluation-tables-i-and-ii)
-    - [FlyTrap Evaluation (~5 hours)](#flytrap-evaluation-5-hours)
-    - [TGT Evaluation (Full Evaluation, ~40 hours)](#tgt-evaluation-full-evaluation-40-hours)
-    - [TGT Evaluation (Partial Evaluation, ~10 hours)](#tgt-evaluation-partial-evaluation-10-hours)
-    - [TGT Metric Evaluation (Pre-computed Results, ~5 minute)](#tgt-metric-evaluation-pre-computed-results-5-minute)
+  - [Attack Evaluation](#attack-evaluation)
+    - [FlyTrap Evaluation](#flytrap-evaluation)
+    - [TGT Evaluation](#tgt-evaluation)
+    - [TGT Metric Evaluation](#tgt-metric-evaluation)
   - [Defense Evaluation](#defense-evaluation)
-    - [PercepGuard Evaluation (Table IV, ~2 hours)](#percepguard-evaluation-table-iv-2-hours)
-    - [VOGUES Evaluation (Table V, ~8 hours)](#vogues-evaluation-table-v-8-hours)
+    - [PercepGuard Evaluation](#percepguard-evaluation)
+    - [VOGUES Evaluation](#vogues-evaluation)
 - [Acknowledgments](#acknowledgments)
 
 
@@ -31,70 +27,63 @@ Please refer to the [INSTALL.md](docs/INSTALL.md) for the installation instructi
 
 All the time estimation is based on a single NVIDIA RTX 3090 GPU. You can run each of the following experiments in parallel.
 
-### Attack Evaluation (Tables I and II)
+### 1. Attack Evaluation
 
-**Major Claims**: 
+#### 1.1 FlyTrap Evaluation
 
-1. FlyTrap<sub>PDP</sub> can achieve better effectiveness than TGT. FlyTrap<sub>PDP</sub> can achieve better effectiveness than vanilla FlyTrap.
-2. FlyTrap<sub>PDP</sub> can achieve better universality than TGT.
+We provide three options to evaluate the FlyTrap attack based on the available resources and time requirements.
 
-We've updated the TGT baseline attack number in the revision process. Please refer to the latest table below for reference.
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="assets/table2.png" alt="Table 2" height="200px"><br>
-      <b>Table 2</b>
-    </td>
-    <td align="center">
-      <img src="assets/table3.png" alt="Table 3" height="200px"><br>
-      <b>Table 3</b>
-    </td>
-  </tr>
-</table>
-
-
-#### FlyTrap Evaluation (~5 hours)
-
-Run the following command to evaluate the effectiveness and universality of FlyTrap. All the trained adversarial patches are located in [`patches`](./patches).
+- **Option 1: Full evaluation (~5 hours)**:
 
 ```sh
-# If this command takes too long
-# please refer to the partial evaluation section below
 bash scripts/eval_flytrap.sh
 ```
 
-If the above command takes too long, you can also evaluate partial results by running a single model (e.g., `Mixformer`), this will take around 1 hour:
+- **Option 2: Partial evaluation (~1 hour)**:
+
+You can select the following config files inside [`config/final`](./config/final):
+
+| Model Name         | w/o PDP | w/ PDP |
+|--------------------|:-------:|:------:|
+| MixFormer          |   [`config/final/mixformer.py`](./config/final/mixformer.py)     |   [`config/final/mixformer_pdp.py`](./config/final/mixformer_pdp.py)    |
+| SiamRPN-AlexNet    |   [`config/final/siamrpn_alex.py`](./config/final/siamrpn_alex.py)     |   [`config/final/siamrpn_alex_pdp.py`](./config/final/siamrpn_alex_pdp.py)    |
+| SiamRPN-ResNet50   |   [`config/final/siamrpn_resnet.py`](./config/final/siamrpn_resnet.py)     |   [`config/final/siamrpn_resnet_pdp.py`](./config/final/siamrpn_resnet_pdp.py)    |
+| SiamRPN-MobileV2   |   [`config/final/siamrpn_mob.py`](./config/final/siamrpn_mob.py)     |   [`config/final/siamrpn_mob_pdp.py`](./config/final/siamrpn_mob_pdp.py)    |
+
 
 ```sh
-# FlyTrap w/o PDP (Estimated time: ~30 minutes)
-python tools/main.py config/final/mixformer.py
-# FlyTrap w/ PDP (Estimated time: ~30 minutes)
-python tools/main.py config/final/mixformer_pdp.py
+python tools/main.py <config_file>
 ```
 
-The results will be saved in `work_dirs/` with the name of the config file. There are three files in the `work_dirs/` directory:
+- **Option 3: Pre-computed results (~10 minutes)**:
 
-- `benign_results_epoch-1.json`: The tracker output before the attack.
-- `results_epoch-1.json`: The tracker output after the attack.
-- `metric_epoch-1.json`: The mASR on each evaluation video.
+TBA
 
-To compute the detailed metric, we separate the evaluation videos into four categories based on the training set of the patch:
+---
 
-- **Effectiveness** to the same person and the same location.
-- **Universality** to different persons and the same location (Universality to Person).
-- **Universality** to the same person and different location (Universality to Location).
-- **Universality** to different persons and different locations (Universality to Both).
+Finally, run the following command to compute the detailed metric:
 
-To get the detailed metric, run the following command and follow the instructions in the terminal to get the final results and refer to Tables I and II in the paper. If you only evaluated partial results above, you can ignore the error raised by missing files for other models.
+- **Option 1 Full Evaluation**:
+
+If you run the full evaluation above (**option 1**) or if you downloaded the pre-computed results (**option 3**), you can run the following command to compute the detailed metric.
 
 ```bash
 bash scripts/metric_summary.sh
 ```
 
-#### TGT Evaluation (Full Evaluation, ~40 hours)
+- **Option 2 Partial Evaluation**:
 
-If the evaluation time takes too long, you may only want to evaluate partial results on one model; please refer to the [partial evaluation section](#tgt-evaluation-partial-evaluation-10-hours) below, which takes around 10 hours. If it's still too long, we provide the results json files for computing the detailed metric, please refer to the [pre-computed results section](#tgt-metric-evaluation-pre-computed-results-5-minute) below.
+If you run the partial evaluation above (**option 2**), you can run the following command to compute the detailed metric.
+
+```bash
+TBA
+```
+
+#### TGT Evaluation
+
+We also provide three options to evaluate the TGT attack based on the available resources and time requirements.
+
+- **Option 1: Full Evaluation (~40 hours)**:
 
 Run the following command to evaluate the effectiveness and universality of TGT Images; all the TGT baseline attack patches are located in [`tgt`](./tgt):
 
@@ -102,24 +91,7 @@ Run the following command to evaluate the effectiveness and universality of TGT 
 bash scripts/eval_tgt.sh
 ```
 
-The results will be saved in `work_dirs/` with the name of the config file. There are three files in the `work_dirs/` directory:
-
-- `benign_results_epoch-1.json`: The tracker output before the attack.
-- `results_epoch-1.json`: The tracker output after the attack.
-- `metric_epoch-1.json`: The mASR on each evaluation video.
-
-To get the detailed metric, run the following command to get the final results and refer to Tables I and II in the paper. You can specify the config file from the following list one by one and get the final results.
-
-- `mixformer_tgt`
-- `siamrpn_alex_tgt`
-- `siamrpn_mob_tgt`
-- `siamrpn_resnet_tgt`
-
-```bash
-python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>/json_files
-```
-
-#### TGT Evaluation (Partial Evaluation, ~10 hours)
+- **Option 2: Partial Evaluation (~10 hours)**:
 
 You can specify the config file from the following list, depending on the victim model you want to evaluate.
 
@@ -128,42 +100,42 @@ You can specify the config file from the following list, depending on the victim
 - `config/final/siamrpn_mob_tgt.py`
 - `config/final/siamrpn_resnet_tgt.py`
 
-Then, run the following command to evaluate the effectiveness and universality of TGT Images on one model; all the TGT baseline attack patches are located in [`tgt`](./tgt). 
+```sh
+bash scripts/eval_tgt_partial.sh <config_file>
+```
+
+- **Option 3: Pre-computed results (~10 minutes)**:
+
+[![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?logo=google-drive&logoColor=white&style=flat-square)](https://drive.google.com/file/d/1LCFybYCtAz2oCw4qMfOyCflHw6mqxWCN/view?usp=sharing) 
+
+Download the pre-computed results from the above [link](https://drive.google.com/file/d/1LCFybYCtAz2oCw4qMfOyCflHw6mqxWCN/view?usp=sharing). You can also download using the terminal command:
+```bash
+bash download_tgt_results.sh
+```
+
+---
+
+After evaluating the TGT attack, you can run the following command to compute the detailed metric.
+
+- **Option 1 Full Evaluation**:
+
+If you run the full evaluation above (**option 1**) or if you downloaded the pre-computed results (**option 3**), you can run the following command to compute the detailed metric.
 
 ```bash
-bash scripts/eval_tgt_partial.sh <config_file_name>
+bash scripts/metric_summary.sh
 ```
 
-Then, for the final detailed metric, specify the config file name as the argument, including `mixformer_tgt`, `siamrpn_alex_tgt`, `siamrpn_mob_tgt`, `siamrpn_resnet_tgt`, depending on the victim model you evaluated above.
+- **Option 2 Partial Evaluation**:
 
-```sh
-python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file_name>/json_files/
-```
+If you run the partial evaluation above (**option 2**), you can run the following command to compute the detailed metric. Please replace `<config_file>` with the config file name you evaluated above.
 
-#### TGT Metric Evaluation (Pre-computed Results, ~5 minute)
-
-If the above command takes too long, you can also evaluate our generated results by running a single model (e.g., `Mixformer`), this will take around 1 minute:
-
-```sh
-# Download the results json files
-gdown 1LCFybYCtAz2oCw4qMfOyCflHw6mqxWCN
-unzip tgt_results.zip
-
-# Evaluate the Mixformer results
-python analysis/analyze_tgt_metric.py --input_dir tgt_results/mixformer_cvt_position_engine_final_tgt_scale15/json_files/
-# Evaluate the SiamRPN-AlexNet results
-python analysis/analyze_tgt_metric.py --input_dir tgt_results/siamrpn_alexnet_engine_final_tgt_scale15/json_files/
-# Evaluate the SiamRPN-MobileNet results
-python analysis/analyze_tgt_metric.py --input_dir tgt_results/siamrpn_mobilenet_engine_final_tgt_scale15/json_files/
-# Evaluate the SiamRPN-ResNet results
-python analysis/analyze_tgt_metric.py --input_dir tgt_results/siamrpn_resnet_engine_final_tgt_scale15/json_files/
+```bash
+python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file>/json_files
 ```
 
 ### Defense Evaluation
 
-**Major Claims**: 
-
-1. FlyTrap<sub>ATG</sub> can reduce the true alarm rate compared to vanilla FlyTrap.
+We provide the code to evaluate the defense methods: USENIX'23 [`PercepGuard`](https://www.usenix.org/conference/usenixsecurity23/presentation/man) and USENIX'24 [`VOGUES`](https://www.usenix.org/conference/usenixsecurity24/presentation/muller).
 
 #### PercepGuard Evaluation (Table IV, ~2 hours)
 

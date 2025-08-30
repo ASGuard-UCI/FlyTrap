@@ -1,0 +1,17 @@
+wandb
+fvcore
+jpeg4py
+opencv-python
+lmdb
+einops
+easydict
+scipy
+tensorboardx
+pycocotools
+munkres
+scipy==1.4.1
+timm==0.4.12
+numpy==1.19.2
+mmcv==2.2.0
+mmengine==0.10.4
+cython_bbox==0.1.3
