@@ -113,31 +113,22 @@ bash scripts/eval_tgt_partial.sh <config_file>
 
 - **Option 3: Pre-computed results (~10 minutes)**:
 
-[![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?logo=google-drive&logoColor=white&style=flat-square)](https://drive.google.com/file/d/1LCFybYCtAz2oCw4qMfOyCflHw6mqxWCN/view?usp=sharing) 
+[![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?logo=google-drive&logoColor=white&style=flat-square)](https://drive.google.com/file/d/1JZkyJQy3-EsUkjAC0uxpTP3LQ-_38HQm/view?usp=sharing) 
 
-Download the pre-computed results from the above [link](https://drive.google.com/file/d/1LCFybYCtAz2oCw4qMfOyCflHw6mqxWCN/view?usp=sharing). You can also download using the terminal command:
+Download the pre-computed results from the above [link](https://drive.google.com/file/d/1JZkyJQy3-EsUkjAC0uxpTP3LQ-_38HQm/view?usp=sharing). You can also download using the terminal command:
 ```bash
 bash download/download_tgt_results.sh
 ```
 
 ---
 
-After evaluating the TGT attack, you can run the following command to compute the detailed metric.
-
-- **Option 1 Full Evaluation**:
-
-If you run the full evaluation above (**option 1**) or if you downloaded the pre-computed results (**option 3**), you can run the following command to compute the detailed metric.
+If you run the full evaluation above (**option 1**) or if you downloaded the pre-computed results (**option 3**), you can run the following command to compute the detailed metric. If you run the partial evaluation above (**option 2**), please replace `<config_file>` with the config file name you evaluated above.
 
 ```bash
-bash scripts/metric_summary.sh
-```
-
-- **Option 2 Partial Evaluation**:
-
-If you run the partial evaluation above (**option 2**), you can run the following command to compute the detailed metric. Please replace `<config_file>` with the config file name you evaluated above.
-
-```bash
-python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file>/json_files
+python analysis/analyze_tgt_metric.py --input_dir work_dirs/mixformer_tgt/json_files
+python analysis/analyze_tgt_metric.py --input_dir work_dirs/siamrpn_alex_tgt/json_files
+python analysis/analyze_tgt_metric.py --input_dir work_dirs/siamrpn_mob_tgt/json_files
+python analysis/analyze_tgt_metric.py --input_dir work_dirs/siamrpn_resnet_tgt/json_files
 ```
 
 ### 2. Defense Evaluation

@@ -4,5 +4,6 @@ docker run -it --rm \
   --gpus all \
   --shm-size 16g \
   -v $(pwd):/workspace/flytrap \
-  -v /home/shaoyux/data:/workspace/flytrap/data \
+  -v $(pwd)/data:/workspace/flytrap/data \
+  -w /workspace/flytrap \
   flytrap
