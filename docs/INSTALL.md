@@ -71,7 +71,7 @@ bash install.sh
 ## Data Preparation
 
 [![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?logo=google-drive&logoColor=white&style=flat-square)](https://drive.google.com/file/d/1ezFU2-JiZC1szN5PnAUU_1ONDmAJM45W/view) 
-[![Zenodo](https://img.shields.io/badge/Zenodo-FAFAFA?logo=zenodo&logoColor=blue&style=flat-square)]()
+[![Zenodo](https://img.shields.io/badge/Zenodo-FAFAFA?logo=zenodo&logoColor=blue&style=flat-square)](https://zenodo.org/uploads/16908024)
 
 We provide two ways to prepare the data.
 1. Google Drive
@@ -83,7 +83,9 @@ bash download_data.sh
 
 2. Zenodo
 
-TBA
+Please download the dataset from the [link](https://zenodo.org/uploads/16908024) above.
+
+---
 
 Finally, the dataset is organized as follows:
 ```
