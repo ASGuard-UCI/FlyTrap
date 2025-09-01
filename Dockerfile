@@ -26,5 +26,6 @@ RUN pip install -r requirements.txt
 RUN pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py38_cu113_pyt1110/download.html
 
 RUN apt-get update && apt-get install -y ninja-build
+RUN apt update && apt install unzip -y
 
 CMD ["/bin/bash"]

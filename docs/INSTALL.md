@@ -5,18 +5,50 @@
     - [Conda Installation](#conda-installation)
     - [Docker Installation](#docker-installation)
 - [Data Preparation](#data-preparation)
-    - [Google Drive](#google-drive)
-    - [Zenodo](#zenodo)
 - [Model Preparation](#model-preparation)
 
 ## Requirements
 
 We support two installation methods:
 
-1. [Conda environment](#conda-installation)
-2. [Docker container](#docker-installation)
+1. [Docker Installation](#docker-installation)
+2. [Conda Installation](#conda-installation)
 
 We recommend using the Docker container for a consistent and reproducible installation environment.
+
+### Docker Installation
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=flat-square)](https://hub.docker.com/r/shaoyuanxie/flytrap)
+
+
+You can pull our pre-built docker image from [Docker Hub](https://hub.docker.com/r/shaoyuanxie/flytrap). We provide a `Dockerfile` in the root directory and you can also build from the Dockerfile.
+
+- **Option 1: Pull from Docker Hub**
+
+```bash
+docker pull shaoyuanxie/flytrap:latest
+docker tag shaoyuanxie/flytrap:latest flytrap:latest
+```
+
+- **Option 2: Build from Dockerfile**
+
+```bash
+docker build -t flytrap .
+```
+
+After preparing the environment, you can run the following command to start the container:
+
+```bash
+bash run_docker.sh
+```
+
+Then, inside the container, you can run the following command to build the models:
+
+```bash
+cd /workspace/flytrap
+bash scripts/install.sh
+```
+
+You might encounter building errors. We've verified the errors won't affect functionality. You can ignore them and continue.
 
 ### Conda Installation
 
@@ -37,35 +69,6 @@ pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.co
 
 # Install models
 bash scripts/install.sh
-```
-
-### Docker Installation
-
-We provide a `Dockerfile` in the root directory. You can also pull our pre-built docker image from [Docker Hub]().
-
-- Option 1: Build from Dockerfile
-
-```bash
-docker build -t flytrap .
-```
-
-- Option 2: Pull from Docker Hub
-
-```bash
-docker pull shaoyuanxie/flytrap:latest
-```
-
-After preparing the environment, you can run the following command to start the container:
-
-```bash
-bash run_docker.sh
-```
-
-Then, inside the container, you can run the following command to build the models:
-
-```bash
-cd /workspace/flytrap
-bash install.sh
 ```
 
 ## Data Preparation

@@ -8,13 +8,12 @@ Autonomous Target Tracking (ATT) systems, especially ATT drones, are widely used
 
 - [Installation](#installation)
 - [Reproduction](#reproduction)
-  - [Attack Evaluation](#attack-evaluation)
-    - [FlyTrap Evaluation](#flytrap-evaluation)
-    - [TGT Evaluation](#tgt-evaluation)
-    - [TGT Metric Evaluation](#tgt-metric-evaluation)
-  - [Defense Evaluation](#defense-evaluation)
-    - [PercepGuard Evaluation](#percepguard-evaluation)
-    - [VOGUES Evaluation](#vogues-evaluation)
+  - [Attack Evaluation](#1-attack-evaluation)
+    - [FlyTrap Evaluation](#-11-flytrap-evaluation)
+    - [TGT Evaluation](#-12-tgt-evaluation)
+  - [Defense Evaluation](#2-defense-evaluation)
+    - [PercepGuard Evaluation](#-21-percepguard-evaluation-table-iv-2-hours)
+    - [VOGUES Evaluation](#-22-vogues-evaluation-table-v-8-hours)
 - [Acknowledgments](#acknowledgments)
 
 
@@ -29,7 +28,7 @@ All the time estimation is based on a single NVIDIA RTX 3090 GPU. You can run ea
 
 ### 1. Attack Evaluation
 
-#### 1.1 FlyTrap Evaluation
+#### 🚀 1.1 FlyTrap Evaluation
 
 We provide three options to evaluate the FlyTrap attack based on the available resources and time requirements.
 
@@ -79,7 +78,7 @@ If you run the partial evaluation above (**option 2**), you can run the followin
 TBA
 ```
 
-#### TGT Evaluation
+#### 🚀 1.2 TGT Evaluation
 
 We also provide three options to evaluate the TGT attack based on the available resources and time requirements.
 
@@ -133,11 +132,11 @@ If you run the partial evaluation above (**option 2**), you can run the followin
 python analysis/analyze_tgt_metric.py --input_dir work_dirs/<config_file>/json_files
 ```
 
-### Defense Evaluation
+### 2. Defense Evaluation
 
 We provide the code to evaluate the defense methods: USENIX'23 [`PercepGuard`](https://www.usenix.org/conference/usenixsecurity23/presentation/man) and USENIX'24 [`VOGUES`](https://www.usenix.org/conference/usenixsecurity24/presentation/muller).
 
-#### PercepGuard Evaluation (Table IV, ~2 hours)
+#### 🚀 2.1 PercepGuard Evaluation (Table IV, ~2 hours)
 
 Run the following command one by one to evaluate the benign case and the FlyTrap<sub>ATG</sub> attack case.
 
@@ -167,7 +166,7 @@ bash scripts/eval_perceguard.sh config/final/siamrpn_mob_percepguard.py patches/
 bash scripts/eval_perceguard.sh config/final/siamrpn_alex_percepguard.py patches/siamrpn_alex_flytrap.png
 ```
 
-#### VOGUES Evaluation (Table V, ~8 hours)
+#### 🚀 2.2 VOGUES Evaluation (Table V, ~8 hours)
 
 Run the following command one by one to evaluate the benign case and the FlyTrap<sub>ATG</sub> attack case. You can also want to evaluate a single model by specifying one of the following commands to save time.
 
