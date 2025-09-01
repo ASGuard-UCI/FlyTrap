@@ -77,16 +77,20 @@ bash scripts/install.sh
 [![Zenodo](https://img.shields.io/badge/Zenodo-FAFAFA?logo=zenodo&logoColor=blue&style=flat-square)](https://zenodo.org/records/16908024)
 
 We provide two ways to prepare the data.
-1. Google Drive
+
+- **Option 1: Google Drive**
 
 Please download the dataset from the [link](https://drive.google.com/file/d/1ezFU2-JiZC1szN5PnAUU_1ONDmAJM45W/view) above. You can also download using the terminal command:
 ```bash
 bash download/download_data.sh
 ```
 
-2. Zenodo
+- **Option 2: Zenodo**
 
-Please download the dataset from the [link](https://zenodo.org/records/16908024) above.
+Please download the dataset from the [link](https://zenodo.org/records/16908024) above. You can also download using the terminal command:
+```bash
+bash download/download_data_zenodo.sh
+```
 
 ---
 
