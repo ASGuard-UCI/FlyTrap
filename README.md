@@ -64,7 +64,12 @@ python tools/main.py <config_file>
 
 - **Option 3: Pre-computed results (~10 minutes)**:
 
-TBA
+[![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?logo=google-drive&logoColor=white&style=flat-square)](https://drive.google.com/file/d/1JWd_yHl3pBgPSuHNr-XDkllULAm5TBDK/view?usp=drive_link) 
+
+Download the pre-computed results from the above [link](https://drive.google.com/file/d/1JWd_yHl3pBgPSuHNr-XDkllULAm5TBDK/view?usp=drive_link). You can also download using the terminal command:
+```bash
+bash download/download_flytrap_results.sh
+```
 
 ---
 
@@ -80,10 +85,10 @@ bash scripts/metric_summary.sh
 
 - **Option 2 Partial Evaluation**:
 
-If you run the partial evaluation above (**option 2**), you can run the following command to compute the detailed metric.
+If you run the partial evaluation above (**option 2**), you can run the following command to compute the detailed metric. Please replace `<config>` with the config file name you evaluated above.
 
 ```bash
-TBA
+python analysis/analyze_result_metric.py --file work_dirs/<config>/json_files/results_epoch-1.json
 ```
 
 #### 🚀 1.2 TGT Evaluation
@@ -122,7 +127,7 @@ bash download/download_tgt_results.sh
 
 ---
 
-If you run the full evaluation above (**option 1**) or if you downloaded the pre-computed results (**option 3**), you can run the following command to compute the detailed metric. If you run the partial evaluation above (**option 2**), please replace `<config_file>` with the config file name you evaluated above.
+If you run the full evaluation above (**option 1**) or if you downloaded the pre-computed results (**option 3**), you can run the following command to compute the detailed metric. If you run the partial evaluation above (**option 2**), please use the specific `<config_file>` you evaluated above.
 
 ```bash
 python analysis/analyze_tgt_metric.py --input_dir work_dirs/mixformer_tgt/json_files
@@ -140,7 +145,8 @@ We provide the code to evaluate the defense methods: USENIX'23 [`PercepGuard`](h
 Run the following command one by one to evaluate the benign case and the FlyTrap<sub>ATG</sub> attack case.
 
 ```sh
-# Estimate time: ~1 hour
+# Set up the environment
+. env.sh
 # Evaluation MixFormer
 bash scripts/eval_perceguard.sh config/final/mixformer_percepguard.py patches/mixformer_flytrap_atg_percepguard.png
 # Evaluation SiamRPN-ResNet
@@ -154,7 +160,8 @@ bash scripts/eval_perceguard.sh config/final/siamrpn_alex_percepguard.py patches
 Run the following command one by one to evaluate the benign case and vanilla FlyTrap attack case.
 
 ```sh
-# Estimate time: ~1 hour
+# Set up the environment
+. env.sh
 # Evaluation MixFormer
 bash scripts/eval_perceguard.sh config/final/mixformer_percepguard.py patches/mixformer_flytrap.png
 # Evaluation SiamRPN-ResNet
@@ -170,7 +177,8 @@ bash scripts/eval_perceguard.sh config/final/siamrpn_alex_percepguard.py patches
 Run the following command one by one to evaluate the benign case and the FlyTrap<sub>ATG</sub> attack case. You can also want to evaluate a single model by specifying one of the following commands to save time.
 
 ```sh
-# Estimate time: ~4 hours
+# Set up the environment
+. env.sh
 # Evaluation MixFormer
 bash scripts/eval_vogues.sh config/final/mixformer_vogues.py patches/mixformer_flytrap_atg_vogues.png
 # Evaluation SiamRPN-ResNet
@@ -184,7 +192,8 @@ bash scripts/eval_vogues.sh config/final/siamrpn_alex_vogues.py patches/siamrpn_
 Run the following command one by one to evaluate the benign case and vanilla FlyTrap attack case.
 
 ```sh
-# Estimate time: ~4 hours
+# Set up the environment
+. env.sh
 # Evaluation MixFormer
 bash scripts/eval_vogues.sh config/final/mixformer_vogues.py patches/mixformer_flytrap.png
 # Evaluation SiamRPN-ResNet
