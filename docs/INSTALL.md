@@ -36,7 +36,7 @@ pip install -r requirements.txt
 pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py38_cu113_pyt1110/download.html
 
 # Install models
-bash install.sh
+bash scripts/install.sh
 ```
 
 ### Docker Installation
@@ -78,7 +78,7 @@ We provide two ways to prepare the data.
 
 Please download the dataset from the [link](https://drive.google.com/file/d/1ezFU2-JiZC1szN5PnAUU_1ONDmAJM45W/view) above. You can also download using the terminal command:
 ```bash
-bash download_data.sh
+bash download/download_data.sh
 ```
 
 2. Zenodo
@@ -113,7 +113,7 @@ Finally, the dataset is organized as follows:
 You can download the checkpoints from the [link](https://drive.google.com/drive/u/2/folders/1snpDOOAxZAvUrStP3QvJreaTe56gQhDV) above. You can also download using the terminal command:
 
 ```bash
-bash download_model.sh
+bash download/download_model.sh
 ```
 
 The checkpoints are organized as follows: if you used the above commands to download the checkpoints, they're already in the correct place.

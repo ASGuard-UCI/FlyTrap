@@ -110,7 +110,7 @@ bash scripts/eval_tgt_partial.sh <config_file>
 
 Download the pre-computed results from the above [link](https://drive.google.com/file/d/1LCFybYCtAz2oCw4qMfOyCflHw6mqxWCN/view?usp=sharing). You can also download using the terminal command:
 ```bash
-bash download_tgt_results.sh
+bash download/download_tgt_results.sh
 ```
 
 ---
