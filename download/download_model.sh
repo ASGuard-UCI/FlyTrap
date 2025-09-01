@@ -1,4 +1,5 @@
 #!/bin/bash
+pip install gdown
 
 mkdir -p ckpts && cd ckpts
 gdown 1j3SzI6Dno9GQVEUUoMmD3KEeyLoNdWom
