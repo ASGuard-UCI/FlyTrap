@@ -116,7 +116,7 @@ Finally, the dataset is organized as follows:
 ## Model Preparation
 
 [![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?logo=google-drive&logoColor=white&style=flat-square)](https://drive.google.com/drive/u/2/folders/1snpDOOAxZAvUrStP3QvJreaTe56gQhDV) 
-[![Zenodo](https://img.shields.io/badge/Zenodo-FAFAFA?logo=zenodo&logoColor=blue&style=flat-square)](https://zenodo.org/records/17051350)
+[![Zenodo](https://img.shields.io/badge/Zenodo-FAFAFA?logo=zenodo&logoColor=blue&style=flat-square)](https://zenodo.org/records/17051654)
 
 You can download the checkpoints from the link. You can also download using the terminal command:
 
@@ -127,7 +127,7 @@ bash download/download_model.sh
 bash download/download_model_zenodo.sh
 ```
 
-The checkpoints are organized as follows: if you used the above commands to download the checkpoints, they're already in the correct place.
+The checkpoints are organized as follows: if you used the above Google Drive commands to download the checkpoints, they're already in the correct place.
 ```
 ├── ckpts/
 │   ├── torch_bdd100k.pth

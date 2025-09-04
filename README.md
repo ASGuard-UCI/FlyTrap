@@ -138,7 +138,7 @@ python analysis/analyze_tgt_metric.py --input_dir work_dirs/siamrpn_resnet_tgt/j
 
 ### 2. Defense Evaluation
 
-We provide the code to evaluate the defense methods: USENIX'23 [`PercepGuard`](https://www.usenix.org/conference/usenixsecurity23/presentation/man) and USENIX'24 [`VOGUES`](https://www.usenix.org/conference/usenixsecurity24/presentation/muller).
+We provide the code to evaluate the defense methods: Security'23 [`PercepGuard`](https://www.usenix.org/conference/usenixsecurity23/presentation/man) and Security'24 [`VOGUES`](https://www.usenix.org/conference/usenixsecurity24/presentation/muller).
 
 #### 🚀 2.1 PercepGuard Evaluation (Table IV, ~2 hours)
 
