@@ -147,48 +147,45 @@ Run the following command one by one to evaluate the defense of FlyTrap<sub>ATG<
 ```sh
 # Evaluation MixFormer
 bash scripts/eval_percepguard.sh config/final/mixformer_percepguard.py patches/mixformer_flytrap_atg_percepguard.png
-bash scripts/eval_percepguard.sh config/final/mixformer_percepguard.py patches/mixformer_flytrap.png
+bash scripts/eval_percepguard.sh config/final/mixformer_percepguard.py patches/mixformer_flytrap_pdp.png
 
 # Evaluation SiamRPN-ResNet
 bash scripts/eval_percepguard.sh config/final/siamrpn_resnet_percepguard.py patches/siamrpn_resnet_flytrap_atg_percepguard.png
-bash scripts/eval_percepguard.sh config/final/siamrpn_resnet_percepguard.py patches/siamrpn_resnet_flytrap.png
+bash scripts/eval_percepguard.sh config/final/siamrpn_resnet_percepguard.py patches/siamrpn_resnet_flytrap_pdp.png
 
 # Evaluation SiamRPN-Mobile
 bash scripts/eval_percepguard.sh config/final/siamrpn_mob_percepguard.py patches/siamrpn_mobile_flytrap_atg_percepguard.png
-bash scripts/eval_percepguard.sh config/final/siamrpn_mob_percepguard.py patches/siamrpn_mobile_flytrap.png
+bash scripts/eval_percepguard.sh config/final/siamrpn_mob_percepguard.py patches/siamrpn_mobile_flytrap_pdp.png
 
 # Evaluation SiamRPN-Alex
 bash scripts/eval_percepguard.sh config/final/siamrpn_alex_percepguard.py patches/siamrpn_alex_flytrap_atg_percepguard.png
-bash scripts/eval_percepguard.sh config/final/siamrpn_alex_percepguard.py patches/siamrpn_alex_flytrap.png
+bash scripts/eval_percepguard.sh config/final/siamrpn_alex_percepguard.py patches/siamrpn_alex_flytrap_pdp.png
 ```
 
 #### 🚀 2.2 VOGUES Evaluation (Table V, ~8 hours)
 
-Run the following command one by one to evaluate the benign case and the FlyTrap<sub>ATG</sub> attack case. You can also want to evaluate a single model by specifying one of the following commands to save time.
+Run the following command one by one to evaluate FlyTrap<sub>ATG</sub> and vanilla FlyTrap. The results will be saved in `work_dirs/vogues_results`
+- In attack case: `before` means the false alarm rate before the attack and `after` means the true alarm rate after the attack. 
+-`after` in the benign case means the false alarm rate without the umbrella and `before` means the false alarm rate with the umbrella.
 
 ```sh
 # Evaluation MixFormer
 bash scripts/eval_vogues.sh config/final/mixformer_vogues.py patches/mixformer_flytrap_atg_vogues.png
+bash scripts/eval_vogues.sh config/final/mixformer_vogues.py patches/mixformer_flytrap_pdp.png
+
 # Evaluation SiamRPN-ResNet
 bash scripts/eval_vogues.sh config/final/siamrpn_resnet_vogues.py patches/siamrpn_resnet_flytrap_atg_vogues.png
+bash scripts/eval_vogues.sh config/final/siamrpn_resnet_vogues.py patches/siamrpn_resnet_flytrap_pdp.png
+
 # Evaluation SiamRPN-Mobile
 bash scripts/eval_vogues.sh config/final/siamrpn_mob_vogues.py patches/siamrpn_mobile_flytrap_atg_vogues.png
+bash scripts/eval_vogues.sh config/final/siamrpn_mob_vogues.py patches/siamrpn_mobile_flytrap_pdp.png
+
 # Evaluation SiamRPN-Alex
 bash scripts/eval_vogues.sh config/final/siamrpn_alex_vogues.py patches/siamrpn_alex_flytrap_atg_vogues.png
+bash scripts/eval_vogues.sh config/final/siamrpn_alex_vogues.py patches/siamrpn_alex_flytrap_pdp.png
 ```
 
-Run the following command one by one to evaluate the benign case and vanilla FlyTrap attack case.
-
-```sh
-# Evaluation MixFormer
-bash scripts/eval_vogues.sh config/final/mixformer_vogues.py patches/mixformer_flytrap.png
-# Evaluation SiamRPN-ResNet
-bash scripts/eval_vogues.sh config/final/siamrpn_resnet_vogues.py patches/siamrpn_resnet_flytrap.png
-# Evaluation SiamRPN-Mobile
-bash scripts/eval_vogues.sh config/final/siamrpn_mob_vogues.py patches/siamrpn_mobile_flytrap.png
-# Evaluation SiamRPN-Alex
-bash scripts/eval_vogues.sh config/final/siamrpn_alex_vogues.py patches/siamrpn_alex_flytrap.png
-```
 
 ## Acknowledgments
 

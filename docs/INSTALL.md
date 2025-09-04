@@ -141,5 +141,9 @@ The checkpoints are organized as follows: if you used the above commands to down
 │   └── VOGUES/
 │       └── model.pt
 │       └── pretrained_models/
-│           └── multi_domain_fast50_dcn_combined_256x192.pth
+│       │    └── multi_domain_fast50_dcn_combined_256x192.pth
+│       └── detector/
+│           └── yolo/
+│               └── data/
+│                   └── yolov3-spp.weights
 ```
