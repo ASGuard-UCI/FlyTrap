@@ -23,6 +23,7 @@ videos=(
 
 mkdir -p "exp_analysis/vogues"
 
+# Set up the environment
 . env.sh
 
 for video in "${videos[@]}"; do
