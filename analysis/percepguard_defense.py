@@ -18,10 +18,9 @@ from flytrap.builder import MODEL, APPLYER
 argparser = argparse.ArgumentParser()
 argparser.add_argument('--config', type=str, help='configuration to specify the tracker')
 argparser.add_argument('--patch', type=str, help='path to the adversarial patch')
-argparser.add_argument('--video', type=str, help='specify the video to run the tracker, currently only support one video')
+argparser.add_argument('--videos', nargs='+', help='specify the videos to run the tracker, supports multiple videos')
 argparser.add_argument('--output', type=str, help='output path to save the results')
 argparser.add_argument('--attack', action='store_true', help='whether to apply the attack')
-args = argparser.parse_args()
 
 class LSTM(torch.nn.Module):
     def __init__(self, device='cuda'):
@@ -58,19 +57,31 @@ def prepare_fifo(data, fifo, max_len=10):
     return fifo
 
 
-def run(tracker, video_dataset, applyer, renderer, patch):
-   
-    alarm_benign = 0
-    count_benign = 0
-    alarm_attack = 0
-    count_attack = 0
+def run_single_video(tracker, video_dataset, applyer, renderer, patch, video_name, alarmer, class_map):
+    """Run analysis on a single video and return alarm rates."""
     
-    writer = cv2.VideoWriter(args.output, cv2.VideoWriter_fourcc(*'mp4v'), 24, (1920, 1080))
+    alarm_before = 0
+    count_before = 0
+    alarm_after = 0
+    count_after = 0
+    
+    # Find the frame where attack/umbrella unfold starts
+    attack_start_frame = None
+    for frame_idx, data in enumerate(video_dataset):
+        if data['apply_attack']:
+            attack_start_frame = frame_idx
+            break
+    
+    if attack_start_frame is None:
+        print(f"Warning: No attack/umbrella unfold detected in video {video_name}")
+        return None
+    
     render_patch = renderer(patch, train=False).detach().cpu()
     # LSTM input
     fifo = []
+    
     with torch.no_grad():
-        for frame_idx, data in tqdm(enumerate(video_dataset), total=len(video_dataset), desc="Testing"):
+        for frame_idx, data in tqdm(enumerate(video_dataset), total=len(video_dataset), desc=f"Testing {video_name}"):
 
             if frame_idx == 0:
                 # initialize the tracker
@@ -95,33 +106,78 @@ def run(tracker, video_dataset, applyer, renderer, patch):
                 # LSTM input
                 x = torch.tensor(np.array(fifo), dtype=torch.float32).unsqueeze(0).cuda()
                 pred_cls = class_map[alarmer(x).squeeze(0)[-1].argmax().item()]
-                # visualize the result
-                # if pred_cls == 'pedestrians': green, else red
-                color = (0, 255, 0) if pred_cls == 'pedestrians' else (0, 0, 255)
-                # convert [x1, y1, w, h] to [x1, y1, x2, y2] and clamp within H, W
-                bbox = np.array(out['target_bbox'])
-                bbox[2] += bbox[0]
-                bbox[3] += bbox[1]
-                bbox = np.clip(bbox, [0, 0, 0, 0], [1920-2, 1080-2, 1920-2, 1080-2])
-                img = img.copy()
-                img = cv2.rectangle(img, (int(bbox[0]), int(bbox[1])), 
-                                    (int(bbox[2]), int(bbox[3])), color, 2)
-                img = cv2.putText(img, pred_cls, (int(bbox[0]), int(bbox[1]) - 10), 
-                                  cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
                 
-                if data['apply_attack']:
-                    count_attack += 1
+                # Count alarms before and after attack/umbrella unfold
+                if frame_idx < attack_start_frame:
+                    count_before += 1
                     if pred_cls != 'pedestrians':
-                        alarm_attack += 1
+                        alarm_before += 1
                 else:
-                    count_benign += 1
+                    count_after += 1
                     if pred_cls != 'pedestrians':
-                        alarm_benign += 1
-            writer.write(img.astype(np.uint8))
-    writer.release()
+                        alarm_after += 1
     
-    print(f'Benign alarm rate: {alarm_benign/count_benign}')
-    print(f'Attack alarm rate: {alarm_attack/count_attack}')
+    if count_before == 0 or count_after == 0:
+        print(f"Warning: Insufficient frames for analysis in video {video_name}")
+        return None
+    
+    alarm_rate_before = alarm_before / count_before
+    alarm_rate_after = alarm_after / count_after
+    
+    print(f'{video_name} - Before: {alarm_rate_before:.4f} ({alarm_before}/{count_before})')
+    print(f'{video_name} - After: {alarm_rate_after:.4f} ({alarm_after}/{count_after})')
+    
+    return {
+        'video_name': video_name,
+        'alarm_rate_before': alarm_rate_before,
+        'alarm_rate_after': alarm_rate_after,
+        'count_before': count_before,
+        'count_after': count_after,
+        'alarm_before': alarm_before,
+        'alarm_after': alarm_after
+    }
+
+
+def run_multiple_videos(tracker, test_dataloader, applyer, renderer, patch, video_names, alarmer, class_map):
+    """Run analysis on multiple videos and return aggregated results."""
+    
+    results = []
+    
+    for video_name in video_names:
+        if video_name not in test_dataloader.videos:
+            print(f"Warning: Video {video_name} not found in dataset")
+            continue
+            
+        video_data = test_dataloader.videos[video_name]
+        result = run_single_video(tracker, video_data, applyer, renderer, patch, video_name, alarmer, class_map)
+        
+        if result is not None:
+            results.append(result)
+    
+    if not results:
+        print("No valid results obtained")
+        return None
+    
+    # Calculate averages
+    avg_alarm_rate_before = np.mean([r['alarm_rate_before'] for r in results])
+    avg_alarm_rate_after = np.mean([r['alarm_rate_after'] for r in results])
+    
+    # Prepare final results
+    final_results = {
+        'config': os.path.basename(args.config).replace('.py', ''),
+        'patch': os.path.basename(args.patch),
+        'attack': args.attack,
+        'num_videos': len(results),
+        'average_alarm_rate_before': float(avg_alarm_rate_before),
+        'average_alarm_rate_after': float(avg_alarm_rate_after),
+        'video_results': results
+    }
+    
+    print(f"\nSummary:")
+    print(f"Average alarm rate before: {avg_alarm_rate_before:.4f}")
+    print(f"Average alarm rate after: {avg_alarm_rate_after:.4f}")
+    
+    return final_results
 
 
 if __name__ == '__main__':
@@ -142,7 +198,7 @@ if __name__ == '__main__':
     alarmer.load_state_dict(torch.load('ckpts/torch_bdd100k.pth')) # input shape [B, 10, 4]
     alarmer = alarmer.cuda()
     
-    print(f'Evaluating video {args.video} with patch {args.patch}')
+    print(f'Evaluating videos {args.videos} with patch {args.patch}')
     
     cfg = mmengine.Config.fromfile(args.config)
     tracker = MODEL.build(cfg.tracker)
@@ -151,6 +207,23 @@ if __name__ == '__main__':
     test_dataloader = DATASETS.build(cfg.test_dataset)
     patch = torch.tensor(cv2.imread(args.patch)).permute(2, 0, 1).cuda()
     
-    video_data = test_dataloader.videos[args.video]
-    run(tracker, video_data, applyer, renderer, patch)
+    # Run analysis on multiple videos
+    results = run_multiple_videos(tracker, test_dataloader, applyer, renderer, patch, args.videos, alarmer, class_map)
+    
+    if results is not None:
+        # Save results to JSON file
+        config_name = os.path.basename(args.config).replace('.py', '')
+        patch_name = os.path.basename(args.patch).replace('.png', '').replace('.jpg', '')
+        attack_suffix = 'attack' if args.attack else 'benign'
+        
+        # Create output directory
+        output_dir = 'work_dirs/percepguard_results'
+        os.makedirs(output_dir, exist_ok=True)
+        
+        output_filename = os.path.join(output_dir, f"{config_name}_{patch_name}_{attack_suffix}.json")
+        
+        with open(output_filename, 'w') as f:
+            json.dump(results, f, indent=2)
+        
+        print(f"Results saved to {output_filename}")
 
