@@ -166,7 +166,8 @@ bash scripts/eval_percepguard.sh config/final/siamrpn_alex_percepguard.py patche
 
 Run the following command one by one to evaluate FlyTrap<sub>ATG</sub> and vanilla FlyTrap. The results will be saved in `work_dirs/vogues_results`
 - In attack case: `before` means the false alarm rate before the attack and `after` means the true alarm rate after the attack. 
--`after` in the benign case means the false alarm rate without the umbrella and `before` means the false alarm rate with the umbrella.
+
+- In benign case: `before` means the false alarm rate without the umbrella and `after` means the false alarm rate with the umbrella.
 
 ```sh
 # Evaluation MixFormer
