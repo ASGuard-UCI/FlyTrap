@@ -16,4 +16,6 @@ cd models/VOGUES/
 gdown 1exyOvOkueX2c-6e-oFr2YY38r3ImFCn8
 mkdir -p pretrained_models && cd pretrained_models 
 gdown 1fCNYPSlM06XQnDFCyo_qmuU72OzfUL3l
-cd ../../../
+cd ../ && mkdir -p detector/yolo/data && cd detector/yolo/data
+gdown 1mGpWL3fnQDDByNtj6eioHCsOt6uORYQb
+cd ../../../../
