@@ -142,13 +142,7 @@ We provide the code to evaluate the defense methods: USENIX'23 [`PercepGuard`](h
 
 #### 🚀 2.1 PercepGuard Evaluation (Table IV, ~2 hours)
 
-Run the following command one by one to evaluate the benign case and the FlyTrap<sub>ATG</sub> attack case.
-
-```sh
-
-```
-
-Run the following command one by one to evaluate the ATG and vanilla FlyTrap attack case. The results will be saved in `work_dirs/percepguard_results`. `before` means the false alarm rate and `after` means the true alarm rate after the attack.
+Run the following command one by one to evaluate the defense of FlyTrap<sub>ATG</sub> and vanilla FlyTrap. The results will be saved in `work_dirs/percepguard_results`: `before` means the false alarm rate and `after` means the true alarm rate after the attack.
 
 ```sh
 # Evaluation MixFormer
