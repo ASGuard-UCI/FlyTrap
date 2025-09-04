@@ -1,4 +1,4 @@
-## This script contains code to visualize the results of the PerceptGuard defense
+## This script contains code to visualize the results of the VOGUES defense
 ## The results is runned online, output final alarm rate and save the video with visualizations
 
 ## Under construction
@@ -19,11 +19,9 @@ from vogues.api import VOGUES
 argparser = argparse.ArgumentParser()
 argparser.add_argument('config', type=str, help='configuration to specify the tracker')
 argparser.add_argument('patch', type=str, help='path to the adversarial patch')
-argparser.add_argument('--video', type=str, default='person4_street1_instance2', help='specify the video to run the tracker, currently only support one video')
+argparser.add_argument('--videos', nargs='+', help='specify the videos to run the tracker, supports multiple videos')
 argparser.add_argument('--output', type=str, help='output path to save the results')
-argparser.add_argument('--save', type=str, help='output path to save the json results')
 argparser.add_argument('--attack', action='store_true', help='whether to apply the attack')
-args = argparser.parse_args()
 
 
 def prepare_fifo(data, fifo, max_len=10):
@@ -40,21 +38,32 @@ def prepare_fifo(data, fifo, max_len=10):
     return fifo
 
 
-def run(tracker, video_dataset, applyer, renderer, patch):
-   
-    alarm_benign = 0
-    count_benign = 0
-    alarm_attack = 0
-    count_attack = 0
+def run_single_video(tracker, video_dataset, applyer, renderer, patch, video_name, alarmer):
+    """Run analysis on a single video and return alarm rates."""
     
-    writer = cv2.VideoWriter(args.output, cv2.VideoWriter_fourcc(*'mp4v'), 24, (1920, 1080))
+    alarm_before = 0
+    count_before = 0
+    alarm_after = 0
+    count_after = 0
+    
+    # Find the frame where attack/umbrella unfold starts
+    attack_start_frame = None
+    for frame_idx, data in enumerate(video_dataset):
+        if data['apply_attack']:
+            attack_start_frame = frame_idx
+            break
+    
+    if attack_start_frame is None:
+        print(f"Warning: No attack/umbrella unfold detected in video {video_name}")
+        return None
+    
     render_patch = renderer(patch, train=False).detach().cpu()
     
     # For storing results to save as JSON
     results = []
     
     with torch.no_grad():
-        for frame_idx, data in tqdm(enumerate(video_dataset), total=len(video_dataset), desc="Testing"):
+        for frame_idx, data in tqdm(enumerate(video_dataset), total=len(video_dataset), desc=f"Testing {video_name}"):
 
             if frame_idx == 0:
                 # initialize the tracker
@@ -88,73 +97,83 @@ def run(tracker, video_dataset, applyer, renderer, patch):
                 }
                 results.append(frame_result)
                 
-                # Get the visualization with pose estimation
-                img = alarmer.vis()
-                
-                # Draw IoU and LSTM score on top right
-                text = f"IoU: {info['max_iou']:.3f}"
-                text2 = f"LSTM: {info['lstm_score']:.3f}"
-                font = cv2.FONT_HERSHEY_SIMPLEX
-                font_scale = 1
-                thickness = 2
-                color = (0, 255, 0)  # Green color
-                
-                # Get text sizes
-                (text_width, text_height), _ = cv2.getTextSize(text, font, font_scale, thickness)
-                (text2_width, text2_height), _ = cv2.getTextSize(text2, font, font_scale, thickness)
-                
-                # Position text in top right with padding
-                padding = 10
-                x1 = img.shape[1] - text_width - padding
-                x2 = img.shape[1] - text2_width - padding
-                y1 = text_height + padding
-                y2 = 2 * text_height + 2 * padding
-                
-                # Add text to image
-                cv2.putText(img, text, (x1, y1), font, font_scale, color, thickness)
-                cv2.putText(img, text2, (x2, y2), font, font_scale, color, thickness)
-                
-                # Draw tracking bbox
-                track_bbox = np.array([out['target_bbox'][0], out['target_bbox'][1], 
-                                        out['target_bbox'][0] + out['target_bbox'][2], 
-                                        out['target_bbox'][1] + out['target_bbox'][3]])
-                cv2.rectangle(img, 
-                            (int(track_bbox[0]), int(track_bbox[1])), 
-                            (int(track_bbox[2]), int(track_bbox[3])), 
-                            (0, 0, 255),  # Blue color for track bbox
-                            2)
-                
-                if data['apply_attack']:
-                    count_attack += 1
+                # Count alarms before and after attack/umbrella unfold
+                if frame_idx < attack_start_frame:
+                    count_before += 1
                     if alarm:
-                        alarm_attack += 1
+                        alarm_before += 1
                 else:
-                    count_benign += 1
+                    count_after += 1
                     if alarm:
-                        alarm_benign += 1
-            writer.write(img.astype(np.uint8))
-    writer.release()
+                        alarm_after += 1
     
-    # Save results to JSON if path is specified
-    if args.save:
-        json_output = {
-            'video': args.video,
-            'attack_enabled': bool(args.attack),
-            'benign_alarm_rate': float(alarm_benign/count_benign if count_benign > 0 else 0),
-            'attack_alarm_rate': float(alarm_attack/count_attack if count_attack > 0 else 0),
-            'frames': results
-        }
-        if not os.path.exists(os.path.dirname(args.save)):
-            os.makedirs(os.path.dirname(args.save))
-        with open(args.save, 'w') as f:
-            json.dump(json_output, f, indent=2)
-        print(f'Results saved to {args.save}')
+    if count_before == 0 or count_after == 0:
+        print(f"Warning: Insufficient frames for analysis in video {video_name}")
+        return None
     
-    print(f'Benign alarm rate: {alarm_benign/count_benign}')
-    print(f'Attack alarm rate: {alarm_attack/count_attack}')
+    alarm_rate_before = alarm_before / count_before
+    alarm_rate_after = alarm_after / count_after
+    
+    print(f'{video_name} - Before: {alarm_rate_before:.4f} ({alarm_before}/{count_before})')
+    print(f'{video_name} - After: {alarm_rate_after:.4f} ({alarm_after}/{count_after})')
+    
+    return {
+        'video_name': video_name,
+        'alarm_rate_before': alarm_rate_before,
+        'alarm_rate_after': alarm_rate_after,
+        'count_before': count_before,
+        'count_after': count_after,
+        'alarm_before': alarm_before,
+        'alarm_after': alarm_after,
+        'frames': results
+    }
+
+
+def run_multiple_videos(tracker, test_dataloader, applyer, renderer, patch, video_names, alarmer):
+    """Run analysis on multiple videos and return aggregated results."""
+    
+    results = []
+    
+    for video_name in video_names:
+        if video_name not in test_dataloader.videos:
+            print(f"Warning: Video {video_name} not found in dataset")
+            continue
+            
+        video_data = test_dataloader.videos[video_name]
+        result = run_single_video(tracker, video_data, applyer, renderer, patch, video_name, alarmer)
+        
+        if result is not None:
+            results.append(result)
+    
+    if not results:
+        print("No valid results obtained")
+        return None
+    
+    # Calculate averages
+    avg_alarm_rate_before = np.mean([r['alarm_rate_before'] for r in results])
+    avg_alarm_rate_after = np.mean([r['alarm_rate_after'] for r in results])
+    
+    # Prepare final results
+    final_results = {
+        'config': os.path.basename(args.config).replace('.py', ''),
+        'patch': os.path.basename(args.patch),
+        'attack': args.attack,
+        'num_videos': len(results),
+        'average_alarm_rate_before': float(avg_alarm_rate_before),
+        'average_alarm_rate_after': float(avg_alarm_rate_after),
+        'video_results': results
+    }
+    
+    print(f"\nSummary:")
+    print(f"Average alarm rate before: {avg_alarm_rate_before:.4f}")
+    print(f"Average alarm rate after: {avg_alarm_rate_after:.4f}")
+    
+    return final_results
 
 
 if __name__ == '__main__':
+    
+    args = argparser.parse_args()
     
     root = 'data/dataset_v4.0/eval'
     
@@ -181,7 +200,7 @@ if __name__ == '__main__':
                      vis=True,
                      showbox=True)
     
-    print(f'Evaluating video {args.video} with patch {args.patch}')
+    print(f'Evaluating videos {args.videos} with patch {args.patch}')
     
     cfg = mmengine.Config.fromfile(args.config)
     tracker = MODEL.build(cfg.tracker)
@@ -190,6 +209,23 @@ if __name__ == '__main__':
     test_dataloader = DATASETS.build(cfg.test_dataset)
     patch = torch.tensor(cv2.imread(args.patch)).permute(2, 0, 1).cuda()
     
-    video_data = test_dataloader.videos[args.video]
-    run(tracker, video_data, applyer, renderer, patch)
+    # Run analysis on multiple videos
+    results = run_multiple_videos(tracker, test_dataloader, applyer, renderer, patch, args.videos, alarmer)
+    
+    if results is not None:
+        # Save results to JSON file
+        config_name = os.path.basename(args.config).replace('.py', '')
+        patch_name = os.path.basename(args.patch).replace('.png', '').replace('.jpg', '')
+        attack_suffix = 'attack' if args.attack else 'benign'
+        
+        # Create output directory
+        output_dir = 'work_dirs/vogues_results'
+        os.makedirs(output_dir, exist_ok=True)
+        
+        output_filename = os.path.join(output_dir, f"{config_name}_{patch_name}_{attack_suffix}.json")
+        
+        with open(output_filename, 'w') as f:
+            json.dump(results, f, indent=2)
+        
+        print(f"Results saved to {output_filename}")
 

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 # Check if both config file and patch are provided
 if [ $# -lt 2 ]; then
     echo "Usage: $0 <config_file> <patch_file>"
@@ -21,31 +19,18 @@ videos=(
     "person4_grass2_instance2"
 )
 
-mkdir -p "exp_analysis/vogues"
-
 # Set up the environment
 . env.sh
 
-for video in "${videos[@]}"; do
-    # Extract base name from config path
-    base_name=$(basename "$CONFIG" .py)
-    
-    # Construct patch path
-    patch_path="work_dirs/${base_name}/patch.png"
+# Run attack case
+python analysis/vogues_defense.py \
+    "$CONFIG" \
+    "$PATCH" \
+    --videos "${videos[@]}" \
+    --attack
 
-    # attack case
-    python analysis/vogues_defense.py \
-        "$CONFIG" \
-        "$PATCH" \
-        --video "$video" \
-        --attack \
-        --save "exp_analysis/vogues/${base_name}_${video}_attack_vogues.json"
-
-    # benign case
-    python analysis/vogues_defense.py \
-        "$CONFIG" \
-        "$PATCH" \
-        --video "$video" \
-        --save "exp_analysis/vogues/${base_name}_${video}_benign_vogues.json"
-
-done
+# Run benign case
+python analysis/vogues_defense.py \
+    "$CONFIG" \
+    "$PATCH" \
+    --videos "${videos[@]}"
