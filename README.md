@@ -1,7 +1,7 @@
 # ☂️ FlyTrap: Physical Distance-Pulling Attack Towards Camera-based Autonomous Target Tracking Systems
 
-[![ArXiv](https://img.shields.io/badge/ArXiv-FAFAFA?logo=arxiv&logoColor=red&style=flat-square)]()
-[![Demo](https://img.shields.io/badge/Demo-4285F4?logo=youtube&logoColor=white&style=flat-square)](https://sites.google.com/view/flytrap-adv)
+[![ArXiv](https://img.shields.io/badge/ArXiv-FAFAFA?logo=arxiv&logoColor=red&style=flat-square)](https://arxiv.org/abs/2509.20362)
+[![Demo](https://img.shields.io/badge/Demo-4285F4?logo=youtube&logoColor=white&style=flat-square)](https://sites.google.com/view/av-ioat-sec/flytrap)
 [![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?logo=google-drive&logoColor=white&style=flat-square)](https://drive.google.com/file/d/1ezFU2-JiZC1szN5PnAUU_1ONDmAJM45W/view)
 [![Zenodo](https://img.shields.io/badge/Zenodo-FAFAFA?logo=zenodo&logoColor=blue&style=flat-square)](https://zenodo.org/records/16908024)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=flat-square)](https://hub.docker.com/r/shaoyuanxie/flytrap)
