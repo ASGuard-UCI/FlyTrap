@@ -1,12 +1,25 @@
-# ☂️ FlyTrap: Physical Distance-Pulling Attack Towards Camera-based Autonomous Target Tracking Systems
+<p align="center">
+  <h2 align="center">  
+    <strong>☂️ FlyTrap: Physical Distance-Pulling Attack Towards Camera-based Autonomous Target Tracking Systems</strong>
+  </h2>
 
-[![ArXiv](https://img.shields.io/badge/ArXiv-FAFAFA?logo=arxiv&logoColor=red&style=flat-square)](https://arxiv.org/abs/2509.20362)
-[![Demo](https://img.shields.io/badge/Demo-4285F4?logo=youtube&logoColor=white&style=flat-square)](https://sites.google.com/view/av-ioat-sec/flytrap)
-[![Google Drive](https://img.shields.io/badge/Google%20Drive-4285F4?logo=google-drive&logoColor=white&style=flat-square)](https://drive.google.com/file/d/1ezFU2-JiZC1szN5PnAUU_1ONDmAJM45W/view)
-[![Zenodo](https://img.shields.io/badge/Zenodo-FAFAFA?logo=zenodo&logoColor=blue&style=flat-square)](https://zenodo.org/records/16908024)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=flat-square)](https://hub.docker.com/r/shaoyuanxie/flytrap)
-
-
+<p align="center">
+  <a href="https://arxiv.org/abs/2509.20362" target='_blank'>
+    <img src="https://img.shields.io/badge/ArXiv-E74C3C?logo=arxiv&logoColor=white&style=flat-square">
+  </a>
+  <a href="https://sites.google.com/view/av-ioat-sec/flytrap" target='_blank'>
+    <img src="https://img.shields.io/badge/Demo-F1C40F?logo=youtube&logoColor=white&style=flat-square">
+  </a>
+  <a href="https://drive.google.com/file/d/1ezFU2-JiZC1szN5PnAUU_1ONDmAJM45W/view" target='_blank'>
+    <img src="https://img.shields.io/badge/Google%20Drive-4285F4?logo=google-drive&logoColor=white&style=flat-square">
+  </a>
+  <a href="https://zenodo.org/records/16908024" target='_blank'>
+    <img src="https://img.shields.io/badge/Zenodo-FAFAFA?logo=zenodo&logoColor=blue&style=flat-square">
+  </a>
+  <a href="https://hub.docker.com/r/shaoyuanxie/flytrap" target="_blank">
+    <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=flat-square">
+  </a>
+</p>
 
 ## About
 
