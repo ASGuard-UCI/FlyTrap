@@ -25,7 +25,7 @@
   <a href="https://daniel-xsy.github.io/" target="_blank">Shaoyuan Xie</a>&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://mofakih.com/index.html" target="_blank">Mohamad Habib Fakih</a>&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://github.com/Ljc-NTU" target="_blank">Junchi Lu</a>&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://scholar.google.com/citations?user=049lxtUAAAAJ&hl=en" target="_blank">Fayzah Alshammari&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://scholar.google.com/citations?user=049lxtUAAAAJ&hl=en" target="_blank">Fayzah Alshammari</a>&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://me.ningfei.org/" target="_blank">Ningfei Wang</a><br>
   <a href="https://tkm2261.github.io/" target="_blank">Takami Sato</a>&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://halimabouzidi.github.io/" target="_blank">Halima Bouzidi</a>&nbsp;&nbsp;&nbsp;&nbsp;
