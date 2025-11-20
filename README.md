@@ -32,7 +32,7 @@
   <a href="https://www.cecs.uci.edu/people/mohammad-a-al-faruque-3/" target="_blank">Mohammad Abdullah Al Faruque</a>&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://ics.uci.edu/~alfchen/" target="_blank">Qi Alfred Chen</a>
   </br></br>
-  UC Irvine
+  University of California, Irvine
 </p>
 
 ## About
