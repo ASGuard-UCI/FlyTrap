@@ -223,3 +223,15 @@ We thank the following projects for their contributions:
 - [PySOT](https://github.com/STVIR/pysot)
 - [MixFormer](https://github.com/MCG-NJU/MixFormer)
 - [PercepGuard](https://github.com/Harry1993/PercepGuard)
+- 
+
+## Citation
+
+```bib
+@article{xie2025flytrap,
+  title={FlyTrap: Physical Distance-Pulling Attack Towards Camera-based Autonomous Target Tracking Systems},
+  author={Xie, Shaoyuan and Fakih, Mohamad Habib and Lu, Junchi and Alshammari, Fayzah and Wang, Ningfei and Sato, Takami and Bouzidi, Halima and Faruque, Mohammad Abdullah Al and Chen, Qi Alfred},
+  journal={arXiv preprint arXiv:2509.20362},
+  year={2025}
+}
+```
