@@ -5,17 +5,21 @@
 
 <p align="center">
   <a href="https://arxiv.org/abs/2509.20362" target='_blank'>
-    <img src="https://img.shields.io/badge/ArXiv-E74C3C?logo=arxiv&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/ArXiv-B31B1B?logo=arxiv&logoColor=white&style=flat-square">
   </a>
+
   <a href="https://sites.google.com/view/av-ioat-sec/flytrap" target='_blank'>
     <img src="https://img.shields.io/badge/Demo-F1C40F?logo=youtube&logoColor=white&style=flat-square">
   </a>
+
   <a href="https://drive.google.com/file/d/1ezFU2-JiZC1szN5PnAUU_1ONDmAJM45W/view" target='_blank'>
-    <img src="https://img.shields.io/badge/Google%20Drive-4285F4?logo=google-drive&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/Google%20Drive-0F9D58?logo=google-drive&logoColor=white&style=flat-square">
   </a>
+
   <a href="https://zenodo.org/records/16908024" target='_blank'>
-    <img src="https://img.shields.io/badge/Zenodo-FAFAFA?logo=zenodo&logoColor=blue&style=flat-square">
+    <img src="https://img.shields.io/badge/Zenodo-008CFF?logo=zenodo&logoColor=white&style=flat-square">
   </a>
+
   <a href="https://hub.docker.com/r/shaoyuanxie/flytrap" target="_blank">
     <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=flat-square">
   </a>
@@ -24,13 +28,13 @@
 <p align="center">
   <a href="https://daniel-xsy.github.io/" target="_blank">Shaoyuan Xie</a>&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://mofakih.com/index.html" target="_blank">Mohamad Habib Fakih</a>&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://github.com/Ljc-NTU" target="_blank">Junchi Lu</a>&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://scholar.google.com/citations?user=049lxtUAAAAJ&hl=en" target="_blank">Fayzah Alshammari</a>&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://me.ningfei.org/" target="_blank">Ningfei Wang</a><br>
-  <a href="https://tkm2261.github.io/" target="_blank">Takami Sato</a>&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://halimabouzidi.github.io/" target="_blank">Halima Bouzidi</a>&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://www.cecs.uci.edu/people/mohammad-a-al-faruque-3/" target="_blank">Mohammad Abdullah Al Faruque</a>&nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://ics.uci.edu/~alfchen/" target="_blank">Qi Alfred Chen</a>
+  <a href="https://github.com/Ljc-NTU" target="_blank">Junchi Lu</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://scholar.google.com/citations?user=049lxtUAAAAJ&hl=en" target="_blank">Fayzah Alshammari</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://me.ningfei.org/" target="_blank">Ningfei Wang</a><br>
+  <a href="https://tkm2261.github.io/" target="_blank">Takami Sato</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://halimabouzidi.github.io/" target="_blank">Halima Bouzidi</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://www.cecs.uci.edu/people/mohammad-a-al-faruque-3/" target="_blank">Mohammad Al Faruque</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://ics.uci.edu/~alfchen/" target="_blank">Qi Alfred Chen</a>
   </br></br>
   University of California, Irvine
 </p>
