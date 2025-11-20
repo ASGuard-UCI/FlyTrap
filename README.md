@@ -21,6 +21,20 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="https://daniel-xsy.github.io/" target="_blank">Shaoyuan Xie</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://mofakih.com/index.html" target="_blank">Mohamad Habib Fakih</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/Ljc-NTU" target="_blank">Junchi Lu</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://scholar.google.com/citations?user=049lxtUAAAAJ&hl=en" target="_blank">Fayzah Alshammari&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://me.ningfei.org/" target="_blank">Ningfei Wang</a><br>
+  <a href="https://tkm2261.github.io/" target="_blank">Takami Sato</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://halimabouzidi.github.io/" target="_blank">Halima Bouzidi</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://www.cecs.uci.edu/people/mohammad-a-al-faruque-3/" target="_blank">Mohammad Abdullah Al Faruque</a>&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://ics.uci.edu/~alfchen/" target="_blank">Qi Alfred Chen</a>
+  </br></br>
+  UC Irvine
+</p>
+
 ## About
 
 Autonomous Target Tracking (ATT) systems, especially ATT drones, are widely used in applications such as surveillance, border control, and law enforcement, while also being misused in stalking and destructive actions. Thus, the security of ATT is highly critical for real-world applications. Under the scope, we present a new type of attack: distance-pulling attacks (DPA) and a systematic study of it, which exploits vulnerabilities in ATT systems to dangerously reduce tracking distances, leading to drone capturing, increased susceptibility to sensor attacks, or even physical collisions. To achieve these goals, we present FlyTrap, a novel physical-world attack framework that employs an adversarial umbrella as a deployable and domain-specific attack vector. In this artifact, we provide the instructions to reproduce the main results in the paper to support our main claim and main contribution.
