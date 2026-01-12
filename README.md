@@ -227,7 +227,6 @@ We thank the following projects for their contributions:
 - [PySOT](https://github.com/STVIR/pysot)
 - [MixFormer](https://github.com/MCG-NJU/MixFormer)
 - [PercepGuard](https://github.com/Harry1993/PercepGuard)
-- 
 
 ## Citation
 
