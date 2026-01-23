@@ -228,6 +228,8 @@ We thank the following projects for their contributions:
 - [MixFormer](https://github.com/MCG-NJU/MixFormer)
 - [PercepGuard](https://github.com/Harry1993/PercepGuard)
 
+> All drone data and experiments presented in this work were completed before December 22, 2025
+
 ## Citation
 
 ```bib
