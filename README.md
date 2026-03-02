@@ -233,10 +233,10 @@ We thank the following projects for their contributions:
 ## Citation
 
 ```bib
-@article{xie2025flytrap,
-  title={FlyTrap: Physical Distance-Pulling Attack Towards Camera-based Autonomous Target Tracking Systems},
-  author={Xie, Shaoyuan and Fakih, Mohamad Habib and Lu, Junchi and Alshammari, Fayzah and Wang, Ningfei and Sato, Takami and Bouzidi, Halima and Faruque, Mohammad Abdullah Al and Chen, Qi Alfred},
-  journal={arXiv preprint arXiv:2509.20362},
-  year={2025}
+@inproceedings{xie2026flytrap,
+  title={{FlyTrap: Physical Distance-Pulling Attack Towards Camera-based Autonomous Target Tracking Systems}},
+  author={Xie, Shaoyuan and Fakih, Mohamad Habib and Lu, Junchi and Alshammari, Fayzah and Wang, Ningfei and Sato, Takami and Bouzidi, Halima and Al Faruque, Mohammad Abdullah and Chen, Qi Alfred},
+  booktitle={ISOC Network and Distributed System Security Symposium (NDSS)},
+  year={2026}
 }
 ```
