@@ -43,6 +43,17 @@
 
 Autonomous Target Tracking (ATT) systems, especially ATT drones, are widely used in applications such as surveillance, border control, and law enforcement, while also being misused in stalking and destructive actions. Thus, the security of ATT is highly critical for real-world applications. Under the scope, we present a new type of attack: distance-pulling attacks (DPA) and a systematic study of it, which exploits vulnerabilities in ATT systems to dangerously reduce tracking distances, leading to drone capturing, increased susceptibility to sensor attacks, or even physical collisions. To achieve these goals, we present FlyTrap, a novel physical-world attack framework that employs an adversarial umbrella as a deployable and domain-specific attack vector. In this artifact, we provide the instructions to reproduce the main results in the paper to support our main claim and main contribution.
 
+## Citation
+
+```bib
+@inproceedings{xie2026flytrap,
+  title={{FlyTrap: Physical Distance-Pulling Attack Towards Camera-based Autonomous Target Tracking Systems}},
+  author={Xie, Shaoyuan and Fakih, Mohamad Habib and Lu, Junchi and Alshammari, Fayzah and Wang, Ningfei and Sato, Takami and Bouzidi, Halima and Al Faruque, Mohammad Abdullah and Chen, Qi Alfred},
+  booktitle={ISOC Network and Distributed System Security Symposium (NDSS)},
+  year={2026}
+}
+```
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -229,14 +240,3 @@ We thank the following projects for their contributions:
 - [PercepGuard](https://github.com/Harry1993/PercepGuard)
 
 > All drone data and experiments presented in this work were completed before December 22, 2025
-
-## Citation
-
-```bib
-@inproceedings{xie2026flytrap,
-  title={{FlyTrap: Physical Distance-Pulling Attack Towards Camera-based Autonomous Target Tracking Systems}},
-  author={Xie, Shaoyuan and Fakih, Mohamad Habib and Lu, Junchi and Alshammari, Fayzah and Wang, Ningfei and Sato, Takami and Bouzidi, Halima and Al Faruque, Mohammad Abdullah and Chen, Qi Alfred},
-  booktitle={ISOC Network and Distributed System Security Symposium (NDSS)},
-  year={2026}
-}
-```
