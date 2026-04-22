@@ -20,7 +20,7 @@
     <img src="https://img.shields.io/badge/YouTube-%F0%9F%8E%AC-yellow">
   </a>
 
-  <a href="https://sites.google.com/view/secure-safe-ai/flytrap#:~:text=Attack%20Highlight%20Demo%3A-,TikTok,-Conference%20Talk%3A" target='_blank'>
+  <a href="https://www.tiktok.com/@asguard_uci/video/7599829206599552287?is_from_webapp=1&sender_device=pc" target='_blank'>
     <img src="https://img.shields.io/badge/TikTok-%F0%9F%8E%B5-steelblue">
   </a>
 
