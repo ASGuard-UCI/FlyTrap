@@ -12,7 +12,7 @@
     <img src="https://img.shields.io/badge/ArXiv-%F0%9F%93%84-red">
   </a>
 
-  <a href="https://sites.google.com/view/av-ioat-sec/flytrap" target='_blank'>
+  <a href="https://sites.google.com/view/secure-safe-ai/flytrap" target='_blank'>
     <img src="https://img.shields.io/badge/Project-%F0%9F%94%97-lightblue">
   </a>
 
