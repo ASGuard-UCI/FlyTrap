@@ -4,24 +4,36 @@
   </h2>
 
 <p align="center">
+  <a href="https://www.ndss-symposium.org/ndss-paper/flytrap-physical-distance-pulling-attack-towards-camera-based-autonomous-target-tracking-systems/" target='_blank'>
+    <img src="https://img.shields.io/badge/Paper-%F0%9F%93%91-blue">
+  </a>
+
   <a href="https://arxiv.org/abs/2509.20362" target='_blank'>
-    <img src="https://img.shields.io/badge/ArXiv-B31B1B?logo=arxiv&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/ArXiv-%F0%9F%93%84-red">
   </a>
 
   <a href="https://sites.google.com/view/av-ioat-sec/flytrap" target='_blank'>
-    <img src="https://img.shields.io/badge/Demo-F1C40F?logo=youtube&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/Project-%F0%9F%94%97-lightblue">
+  </a>
+
+  <a href="https://www.youtube.com/playlist?list=PLlViq2qGRmiYQUEovXYaP3ww9AlWH4ZBt" target='_blank'>
+    <img src="https://img.shields.io/badge/YouTube-%F0%9F%8E%AC-yellow">
+  </a>
+
+  <a href="https://sites.google.com/view/secure-safe-ai/flytrap#:~:text=Attack%20Highlight%20Demo%3A-,TikTok,-Conference%20Talk%3A" target='_blank'>
+    <img src="https://img.shields.io/badge/TikTok-%F0%9F%8E%B5-steelblue">
   </a>
 
   <a href="https://drive.google.com/file/d/1ezFU2-JiZC1szN5PnAUU_1ONDmAJM45W/view" target='_blank'>
-    <img src="https://img.shields.io/badge/Google%20Drive-0F9D58?logo=google-drive&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/Google%20Drive-%F0%9F%93%81-green">
   </a>
 
   <a href="https://zenodo.org/records/16908024" target='_blank'>
-    <img src="https://img.shields.io/badge/Zenodo-008CFF?logo=zenodo&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/Zenodo-%F0%9F%93%A6-lightgrey">
   </a>
 
   <a href="https://hub.docker.com/r/shaoyuanxie/flytrap" target="_blank">
-    <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/Docker-%F0%9F%90%B3-blue">
   </a>
 </p>
 
